@@ -49,6 +49,12 @@
 - 横長 (wide) データ ([wide-table.csv](data/wide-table.csv))
 <!--- 選挙結果の架空データ([logistic.csv]()) -->
 
+- 第5章の練習問題用データ
+	- [ex-ch05a.csv](data/ex-ch05a.csv)
+	- [ex-ch05b.csv](data/ex-ch05a.csv)
+	- [ex-ch05c.csv](data/ex-ch05a.csv)
+	- [ex-ch05d.csv](data/ex-ch05a.csv)
+
 <!--
 ## 練習問題の解答
 
