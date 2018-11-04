@@ -1,7 +1,7 @@
 # quant-methods-R
 
 
-# 浅野正彦 \& 矢内勇生 『Rによる計量政治学』（オーム社, 2019年刊行予定）
+# 浅野正彦 \& 矢内勇生 『Rによる計量政治学』（オーム社, 2018年12月刊行予定）
 
 [浅野 正彦 (Masahiko ASANO)](https://www.asanoucla.com/), Ph.D., 拓殖大学 政経学部 教授
 
@@ -10,10 +10,9 @@
 
 ## 目次
 
-- 第1章　計量政治学とは
-
 ### 第I部 リサーチデザイン
 
+- 第1章　計量政治学とは
 - 第2章　研究テーマの選び方
 - 第3章　理論と仮説
 
@@ -35,9 +34,9 @@
 ## 本書で使用するデータ
 
 - 衆議院議員総選挙小選挙区候補者データ, 1996-2017
-	- CSVファイル ([hr96-17.csv](data/hr96-17.csv))
-	- Rdsファイル（第5章で手を加えたもの：[hr96-17.Rds](data/hr96-17.Rds)）
-	- Rdsファイル（第6章でさらに手を加えたもの：[hr-data.Rds](data/hr-data.Rds)）
+	- 元のCSVファイル ([hr96-17.csv](data/hr96-17.csv))
+	- 第5章で手を加えたもの：[hr96-17.Rds](data/hr96-17.Rds)
+	- 第6章でさらに手を加えたもの：[hr-data.Rds](data/hr-data.Rds)（CSV版：[hr-data.csv](data/hr-data.csv)）
 
 - 政党名の日本語表記と英語（ローマ字）表記の対応表 ([parties.csv](data/parties.csv))
 
