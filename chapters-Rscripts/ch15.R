@@ -4,6 +4,7 @@
 ## 第15章 ロジスティック回帰分析
 ##
 ## Created: 2018-11-23 Yuki Yanai
+## Modified: 2018-11-24 YY
 
 ## 利用するパッケージを読み込む
 library("tidyverse")
@@ -12,9 +13,11 @@ library("margins")
 if(!require("devtools")) install.packages("devtools")
 if(!require("patchwork")) devtools::install_github("thomasp85/patchwork")
 library("patchwork")
-## 次の行はMacユーザのみ実行する（Windowsユーザは削除するかコメントアウトする）
-theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
+  theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+}
 
+  
 ####################################################
 ## 15.1  ロジスティック関数
 ####################################################
@@ -309,8 +312,13 @@ mplt4 <- cplot(model_2, x = "previous", dx = "previous",
   geom_line() +
   labs(x = "過去の当選回数",
        y = "当選回数の平均限界効果") 
-## 四つの図を2行2列に並べて表示する
+## 四つの図を2行2列に並べて表示する: patchwork パッケージを利用
 mplt1 + mplt2 + mplt3 + mplt4 + plot_layout(ncol = 2, nrow = 2)
+## 一つずつ表示したいときは以下を実行
+#print(mplt1)
+#print(mplt2)
+#print(mplt3)
+#print(mplt4)
 
 ## 15.12
 ## 選挙費用に応じて予測当選確率が変わる様子を、当選回数別に図示

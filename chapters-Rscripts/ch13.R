@@ -4,12 +4,15 @@
 ## 第13章 回帰分析の応用
 ##
 ## Created: 2018-11-22 Yuki Yanai
+## Modified: 2018-11-24 YY
 
-## 利用するパッケージを読み込む
+## tidyverse パッケージを読み込む
 library("tidyverse")
 library("makedummies")
-## 次の行はMacユーザのみ実行する（Windowsユーザは削除するかコメントアウトする）
-theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
+  theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+}
+
 
 ####################################################
 ## 13.1  ダミー変数の利用

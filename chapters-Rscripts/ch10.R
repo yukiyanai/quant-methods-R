@@ -5,11 +5,14 @@
 ##
 ## Created: 2018-11-22 Yuki Yanai
 ## Modified: 2018-11-23 YY
+##           2018-11-24 YY
 
 ## tidyverse パッケージを読み込む
 library("tidyverse")
-## 次の行はMacユーザのみ実行する（Windowsユーザは削除するかコメントアウトする）
-theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
+  theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+}
+
 
 ####################################################
 ## 10.1  線形回帰：散布図への直線の当てはめ

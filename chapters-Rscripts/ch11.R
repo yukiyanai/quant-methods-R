@@ -4,11 +4,14 @@
 ## 第11章 回帰分析による統計的推定
 ##
 ## Created: 2018-11-22 Yuki Yanai
+## Modified: 2018-11-24 YY
 
 ## tidyverse パッケージを読み込む
 library("tidyverse")
-## 次の行はMacユーザのみ実行する（Windowsユーザは削除するかコメントアウトする）
-theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
+  theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+}
+
 
 ####################################################
 ## 11.1  単回帰による統計的推定
@@ -42,7 +45,7 @@ print(p_beer)
 ## 例11-2
 ## --------
 
-## データを読み込んで2009年の自民党候補だけ抜き出す
+## 衆院選データを読み込んで2009年の自民党候補だけ抜き出す
 LDP2009 <- read_rds("data/hr-data.Rds") %>% 
   filter(year == 2009, party == "LDP")
 ## Rds がうまく読めないときはcsvを使う

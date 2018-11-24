@@ -4,6 +4,7 @@
 ## 第4章 Rの使い方
 ##
 ## Created: 2018-11-22 Yuki Yanai
+## Modified: 2018-11-24 YY
 
 ## 最小値と最大値を並べて表示する関数を作る
 mm <- function(x) {
@@ -18,3 +19,4 @@ mm(a)
 install.packages(c("tidyverse", "devtools", "haven", "readxl",
                    "coefplot", "interplot", "ROCR", "margins"))
 devtools::install_github("toshi-ara/makedummies")
+devtools::install_github("thomasp85/patchwork")
