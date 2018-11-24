@@ -1,20 +1,17 @@
 # quant-methods-R
 
 
-# 浅野正彦 \& 矢内勇生 『Rによる計量政治学』（オーム社, 2018年12月発売予定）
+# 『Rによる計量政治学』
 
+
+### [Amazonで予約](https://amazon.jp/dp/4274223132/)
+
+- 著者
+	- [浅野 正彦 (Masahiko ASANO)](https://www.asanoucla.com/), Ph.D., 拓殖大学 政経学部 教授
+	- [矢内 勇生 (Yuki YANAI)](http://www.yukiyanai.com), Ph.D., 高知工科大学 経済・マネジメント学群 講師
+- 出版社：[オーム社]()
+- 出版年月：2018年12月
 - ISBN: 978-4274223132
-- **[Amazonで予約](https://amazon.jp/dp/4274223132/)**
-
-<br>
-
-
-[浅野 正彦 (Masahiko ASANO)](https://www.asanoucla.com/), Ph.D., 拓殖大学 政経学部 教授
-
-[矢内 勇生 (Yuki YANAI)](http://www.yukiyanai.com), Ph.D., 高知工科大学 経済・マネジメント学群 講師
-
-
-
 
 <br>
 
@@ -58,6 +55,8 @@
 - 第15章　ロジスティック回帰分析（[ch15.R](chapters-Rscripts/ch15.R)）
 
 ## 本書で使用するデータ
+
+データの文字コードはすべて**UTF-8**です。
 
 - 衆議院議員総選挙小選挙区候補者データ, 1996-2017
 	- 元のCSVファイル：[hr96-17.csv](data/hr96-17.csv)
