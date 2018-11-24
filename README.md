@@ -68,7 +68,7 @@
 
 - 2010年のビールの売り上げと気温のデータ：[beer.csv](data/beer.csv)
 	- 出所 (1) [総務省統計局](http://www.stat.go.jp/info/link/getujidb.html)
-	- 出所 (2) [アサヒビール社](http:// www.asahibeer.co.jp/ir/monthlydata/index.html)
+	- 出所 (2) [アサヒビール社](http://www.asahibeer.co.jp/ir/monthlydata/index.html)
 
 - 身長の架空データ：[height.csv](data/height.csv)
 - 横長 (wide) データ：[wide-table.csv](data/wide-table.csv)
