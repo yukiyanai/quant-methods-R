@@ -52,7 +52,7 @@
 - 第9章　変数間の関連性（[ch09.R](chapters-Rscripts/ch09.R)）
 - 第10章　回帰分析の基礎（[ch10.R](chapters-Rscripts/ch10.R)）
 - 第11章　回帰分析による統計的推定（[ch11.R](chapters-Rscripts/ch11.R)）
-- 第12章　回帰分析の前提等妥当性の診断（[ch12.R](chapters-Rscripts/ch12.R)）
+- 第12章　回帰分析の前提と妥当性の診断（[ch12.R](chapters-Rscripts/ch12.R)）
 - 第13章　回帰分析の応用（[ch13.R](chapters-Rscripts/ch13.R)）
 - 第14章　交差項の使い方（[ch14.R](chapters-Rscripts/ch14.R)）
 - 第15章　ロジスティック回帰分析（[ch15.R](chapters-Rscripts/ch15.R)）
