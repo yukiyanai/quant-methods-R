@@ -60,18 +60,18 @@
 ## 本書で使用するデータ
 
 - 衆議院議員総選挙小選挙区候補者データ, 1996-2017
-	- 元のCSVファイル ([hr96-17.csv](data/hr96-17.csv))
+	- 元のCSVファイル：[hr96-17.csv](data/hr96-17.csv)
 	- 第5章で手を加えたもの：[hr96-17.Rds](data/hr96-17.Rds)
 	- 第6章でさらに手を加えたもの：[hr-data.Rds](data/hr-data.Rds)（CSV版：[hr-data.csv](data/hr-data.csv)）
 
-- 政党名の日本語表記と英語（ローマ字）表記の対応表 ([parties.csv](data/parties.csv))
+- 政党名の日本語表記と英語（ローマ字）表記の対応表：[parties.csv](data/parties.csv)
 
-- 2010年のビールの売り上げと気温のデータ ([beer.csv](data/beer.csv))
+- 2010年のビールの売り上げと気温のデータ：[beer.csv](data/beer.csv)
 	- 出所 (1) [総務省統計局](http://www.stat.go.jp/info/link/getujidb.html)
 	- 出所 (2) [アサヒビール社](http:// www.asahibeer.co.jp/ir/monthlydata/index.html)
 
-- 身長の架空データ ([height.csv](data/height.csv))
-- 横長 (wide) データ ([wide-table.csv](data/wide-table.csv))
+- 身長の架空データ：[height.csv](data/height.csv)
+- 横長 (wide) データ：[wide-table.csv](data/wide-table.csv)
 <!--- 選挙結果の架空データ([logistic.csv]()) -->
 
 - 第5章の練習問題用データ
