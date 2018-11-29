@@ -1,14 +1,14 @@
 # quant-methods-R
 
-
 # 『Rによる計量政治学』
 
+<img src="misc/quant-methods-R-cover.pdf" alt="Rによる計量政治学" border="1" width="280" align="right" />
 
-### [Amazonで予約](https://amazon.jp/dp/4274223132/)
+### [amazon.co.jpで予約](https://amazon.jp/dp/4274223132/) できます
 
 - 著者
-	- [浅野 正彦 (Masahiko ASANO)](https://www.asanoucla.com/), Ph.D., 拓殖大学 政経学部 教授
-	- [矢内 勇生 (Yuki YANAI)](http://www.yukiyanai.com), Ph.D., 高知工科大学 経済・マネジメント学群 講師
+	- [浅野 正彦 (Masahiko ASANO)](https://www.asanoucla.com/), Ph.D.
+	- [矢内 勇生 (Yuki YANAI)](http://www.yukiyanai.com), Ph.D.
 - 出版社：[オーム社]()
 - 出版年月：2018年12月
 - ISBN: 978-4274223132
@@ -27,26 +27,23 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## 目次
 
-<!--
-<img src="misc/quant-methods-R-cover.pdf" alt="Rによる計量政治学表紙" border="1" width="240" height="360" align="right" />
--->
+## 目次
 
 ### 第I部 リサーチデザイン
 
-- 第1章　計量政治学とは
-- 第2章　研究テーマの選び方
-- 第3章　理論と仮説
+- 第 1章　計量政治学とは
+- 第 2章　研究テーマの選び方
+- 第 3章　理論と仮説
 
 ### 第II部 Rを使った計量分析の方法
 
-- 第4章　Rの使い方（Rスクリプト：[ch04.R](chapters-Rscripts/ch04.R)）
-- 第5章　Rによるデータ操作（[ch05.R](chapters-Rscripts/ch05.R)）
-- 第6章　記述統計とデータの可視化・視覚化（[ch06.R](chapters-Rscripts/ch06.R)）
-- 第7章　統計的推定（[ch07.R](chapters-Rscripts/ch07.R)）
-- 第8章　統計的検定（[ch08.R](chapters-Rscripts/ch08.R)）
-- 第9章　変数間の関連性（[ch09.R](chapters-Rscripts/ch09.R)）
+- 第 4章　Rの使い方（Rスクリプト：[ch04.R](chapters-Rscripts/ch04.R)）
+- 第 5章　Rによるデータ操作（[ch05.R](chapters-Rscripts/ch05.R)）
+- 第 6章　記述統計とデータの可視化・視覚化（[ch06.R](chapters-Rscripts/ch06.R)）
+- 第 7章　統計的推定（[ch07.R](chapters-Rscripts/ch07.R)）
+- 第 8章　統計的検定（[ch08.R](chapters-Rscripts/ch08.R)）
+- 第 9章　変数間の関連性（[ch09.R](chapters-Rscripts/ch09.R)）
 - 第10章　回帰分析の基礎（[ch10.R](chapters-Rscripts/ch10.R)）
 - 第11章　回帰分析による統計的推定（[ch11.R](chapters-Rscripts/ch11.R)）
 - 第12章　回帰分析の前提と妥当性の診断（[ch12.R](chapters-Rscripts/ch12.R)）
@@ -54,9 +51,10 @@
 - 第14章　交差項の使い方（[ch14.R](chapters-Rscripts/ch14.R)）
 - 第15章　ロジスティック回帰分析（[ch15.R](chapters-Rscripts/ch15.R)）
 
+
 ## 本書で使用するデータ
 
-データの文字コードはすべて**UTF-8**です。
+**データの文字コードはすべてUTF-8です**。
 
 - 衆議院議員総選挙小選挙区候補者データ, 1996-2017
 	- 元のCSVファイル：[hr96-17.csv](data/hr96-17.csv)
@@ -82,27 +80,22 @@
 
 ## 練習問題の解答
 
-近日公開予定
+- 第 1章：練習問題なし
+- 第 2章：[解答例](exercises/ch02-answers.html)
+- 第 3章：[解答例](exercises/ch03-answers.html)
+- 第 4章：解答例なし（本文中に解説あり）
+- 第 5章：[解答例](exercises/ch05-answers.html)（Rmdファイル： [ch05-answers.Rmd](answers/ch05-answers.Rmd)）
+- 第 6章：[解答例](exercises/ch06-answers.html)（Rmdファイル： [ch06-answers.Rmd](answers/ch06-answers.Rmd)）
+- 第 7章：[解答例](exercises/ch07-answers.html)（Rmdファイル： [ch07-answers.Rmd](answers/ch07-answers.Rmd)）
+- 第 8章：[解答例](exercises/ch08-answers.html)（解答にRコード不要）
+- 第 9章：[解答例](exercises/ch09-answers.html)（Rmdファイル： [ch09-answers.Rmd](answers/ch09-answers.Rmd)）
+- 第10章：[解答例](exercises/ch10-answers.html)（Rmdファイル： [ch10-answers.Rmd](answers/ch10-answers.Rmd)）
+- 第11章：[解答例](exercises/ch11-answers.html)（Rmdファイル： [ch11-answers.Rmd](answers/ch11-answers.Rmd)）
+- 第12章：[解答例](exercises/ch12-answers.html)（Rmdファイル： [ch12-answers.Rmd](answers/ch12-answers.Rmd)）
+- 第13章：[解答例](exercises/ch13-answers.html)（Rmdファイル： [ch13-answers.Rmd](answers/ch13-answers.Rmd)）
+- 第14章：[解答例](exercises/ch14-answers.html)（Rmdファイル： [ch14-answers.Rmd](answers/ch14-answers.Rmd)）
+- 第15章：[解答例](exercises/ch15-answers.html)（Rmdファイル： [ch15-answers.Rmd](answers/ch15-answers.Rmd)）
 
-<!--
-
-
-- [第1章]()
-- [第2章]()
-- [第3章]()
-- [第4章]()
-- [第5章]()
-- [第6章]()
-- [第7章]()
-- [第8章]()
-- [第9章]()
-- [第10章]()
-- [第11章]()
-- [第12章]()
-- [第13章]()
-- [第14章]()
-- [第15章]()
--->
 
 ## 関連書籍
 
