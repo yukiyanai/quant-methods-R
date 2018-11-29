@@ -1,0 +1,230 @@
+---
+title: "Rによる計量政治学：練習問題の解答例"
+subtitle: "第5章 Rによるデータ操作"
+author: "浅野正彦, 矢内勇生"
+date: "2018-11-28"
+output:
+    html_document:
+        theme: united
+        highlight: tango
+        css: my-markdown.css
+        toc: true
+        self_contained: true
+---
+
+```{r global_option, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, echo = TRUE, message = FALSE,
+                      fig.width = 5, fig.height = 4)
+```
+
+## パッケージの読み込み
+
+```{r load-packs}
+library("tidyverse")
+```
+
+## Q5-1
+
+まず、データをダウンロードする。
+```{r download-data1}
+dir.create("data")  # dataディレクトリがない場合は作る
+download.file(url = "https://git.io/fxfKq",
+              destfile = "data/ex-ch05a.csv")
+```
+
+ダウンロードしたデータを読み込み、df_a という名前のデータフレームを作る。
+```{r load-a}
+df_a <- read_csv("data/ex-ch05a.csv")
+```
+
+
+### Q5-1-1
+
+データの中身をいくつかの方法で確認する。まず、データフレームに含まれる変数の名前を確認する。
+```{r cheack-a-names}
+names(df_a)
+```
+このデータフレームには表示された四つの変数があることが分かる。
+
+次に、データの行数（標本サイズ; 観測数）を確認する。
+```{r check-a-nrow}
+nrow(df_a)
+```
+行数が`r nrow(df_a)` であることがわかる。先ほど確認した変数の数と合わせると、df_aは、`r nrow(df_a)`行 $\times$ `r length(names(df_a))`列のデータフレームであることが分かる。これは、
+```{r check-a-dim}
+dim(df_a)
+```
+で確かめられる。また、RStudio の Environmentタブにも、この情報は表示されている。
+
+
+`head()` と`tail()`を使って、データの中身を見てみよう。
+```{r check-a-head}
+head(df_a) # 最初の6行を表示
+```
+最初の6行はChinaの1990年から1995年のデータであり、x とy には数値（小数, dbl [double]）が入っていることが分かる。
+
+同様にデータの末尾を確認してみよう。引数 `n`で表示する行数を指定できる。
+```{r check-a-tail}
+tail(df_a, n = 9)  # 最後の9行を表示
+```
+最後の9行はUSAのデータであることが分かる。
+
+最後に、`dplyr::glimpse()` を使ってデータの中身を確認してみよう（**dplyr**パッケージは **tidyverse** に含まれている）。
+```{r check-a-glimpse}
+glimpse(df_a)
+```
+観測数、変数の数が表示され、それぞれの変数の型（chr [文字列], int [整数], dbl [小数]）と、各変数の先頭部分が表示されており、ここまで確認してきた情報を一気に把握することができる。
+
+
+### Q5-1-2
+
+縦長データであるdf_aから変数をyを除外して、横長データに変換する。
+```{r long2wide-a}
+wide <- df_a %>% 
+  select(-y) %>% 
+  spread(key = "country", value = "x")
+```
+
+横長になったかどうか確認する。
+```{r check-wide-a}
+head(wide, n = 7)
+```
+
+### Q5-1-3
+
+上で作った横長データwide を縦長データに変換する。
+```{r wide2long-a}
+long <- wide %>% 
+  gather(key = "country", value = "x", -year)   # year はまとめない
+```
+
+縦長になったかどうか確認する。
+```{r check-long-a}
+head(long, n = 10)
+tail(long, n = 10)
+```
+
+## Q5-2
+
+表計算ソフトでのデータの入力は省略する。代わりに、表5.6の内容をもつCSVファイルをRで作る。
+```{r tbl5_6}
+tbl5_6 <- data_frame(
+  name = c("Amy", "Ben", "Chris", "Daisy", "Emily",
+           "Fin", "Gary", "Hilary", "Isaac", "Jenny"),
+  female = c(1, 0, 0, 1, 1, 0, 0, 1, 0, 1),
+  height = c(168, 180, 172, 165, 175, 192, 165, 170, 176, 168),
+  weight = c(55, 77, 90, 60, 67, 84, 57, 62, 70, 62)
+)
+write_csv(tbl5_6, path = "data/table5-6.csv")
+```
+
+上で定義したtbl5_6をそのまま使ってもよいが、練習のために`rm()` で一旦データフレームを消去しよう。
+```{r}
+rm(tbl5_6)
+```
+
+上での保存したcsvファイルを改めて読み込み、df2という名前のデータフレームを作ろう。
+```{r read-tbl5_6}
+df2 <- read_csv("data/table5-6.csv")
+```
+
+データの中身を確認する。
+```{r}
+glimpse(df2)
+```
+先ほど作ったデータが正しく読み込めたことが確認できる。
+
+女性のみを含むデータフレームを作り、身長が低い順（昇順）に並べ替える。
+```{r sort-female-height}
+W <- df2 %>% 
+  filter(female == 1) %>%  # 女性だけ抜き出す
+  arrange(height)          # 身長が低い順並べ替える
+W
+```
+
+男性のみを含むデータフレームを作り、体重が重い順（降順; <u>desc</u>ending order）に並べ替える。
+```{r}
+M <- df2 %>% 
+  filter(female != 1) %>%  # 男性だけ抜き出す 
+  arrange(desc(weight))    # 体重が重い順に並べ替える
+M
+```
+
+
+## Q5-3
+
+三つのデータセットをダウンロードし、dataディレクトリに保存する。
+```{r download-3files}
+download.file(url = "https://git.io/fxfKs",
+              destfile = "data/ex-ch05b.csv")
+download.file(url = "https://git.io/fxfKZ",
+              destfile = "data/ex-ch05c.csv")
+download.file(url = "https://git.io/fxfKn",
+              destfile = "data/ex-ch05d.csv")
+
+```
+
+ダウンロードした三つのCSVファイルを読み込み、それぞれdf_b、df_c、df_d という名前のデータフレームにする。
+```{r load-3datasets}
+df_b <- read_csv("data/ex-ch05b.csv")
+df_c <- read_csv("data/ex-ch05c.csv")
+df_d <- read_csv("data/ex-ch05d.csv")
+```
+
+それぞれのデータの中身を確認する。
+```{r check-b}
+glimpse(df_b)
+```
+df_bは3行3列のデータフレームで、文字列型の変数が一つ、整数型の変数が二つある。
+
+```{r check-c}
+glimpse(df_c)
+```
+df_cは2行3列のデータフレームで、文字列型の変数が一つ、整数型の変数が二つある。
+df_bと同じ変数が含まれているが、保存されている順番が異なる。
+
+```{r check-d}
+glimpse(df_d)
+```
+df_d は4行2列のデータフレームで、文字列型の変数と整数型の変数が一つずつある。
+
+### Q5-3-1
+
+df_bとdf_cに含まれる変数はまったく同じで、観測対象が異なるので、データフレームを縦に結合する。
+```{r bind-b-c}
+df_e <- bind_rows(df_b, df_c)
+df_e
+```
+
+### Q5-3-2
+
+df_d とdf_e は異なる変数を持っているので、横に結合する。その際、両者に含まれる国名 (country) が一致する行同士を結合する。df_dに含まれる国だけを残す。
+```{r, ljoin-d-e}
+left_join(df_d, df_e, by = "country")
+# right_join(df_e, df_d, by = "country")  # これでも上と同じ結果になる hh
+```
+
+
+### Q5-3-3
+
+df_d とdf_e は異なる変数を持っているので、横に結合する。その際、両者に含まれる国名 (country) が一致する行同士を結合する。df_eに含まれる国だけを残す。
+```{r, rjoin-d-e}
+right_join(df_d, df_e, by = "country")
+# left_join(df_e, df_d, by = "country")  # これでも上と同じ結果になる 
+```
+
+
+### Q5-3-4
+
+df_d とdf_e は異なる変数を持っているので、横に結合する。その際、両者に含まれる国名 (country) が一致する行同士を結合する。少なくとも一方のデータフレームに含まれる国はすべて残す。
+```{r, full-join-d-e}
+full_join(df_d, df_e, by = "country")
+```
+
+
+### Q5-3-5
+
+df_d とdf_e は異なる変数を持っているので、横に結合する。その際、両者に含まれる国名 (country) が一致する行同士を結合する。両方のデータフレームに含まれる国だけを残す。
+```{r, inner-join-d-e}
+inner_join(df_d, df_e, by = "country")
+```

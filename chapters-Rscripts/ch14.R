@@ -5,6 +5,7 @@
 ##
 ## Created: 2018-11-23 Yuki Yanai
 ## Modified: 2018-11-24 YY
+##           2018-11-26 YY
 
 ## tidyverse パッケージを読み込む
 library("tidyverse")
@@ -40,9 +41,12 @@ HR <- read_rds("data/hr-data.Rds")
 glimpse(HR)  # データの中身を確認する
 
 ## 2005年の衆院選について、voteshare, exppv, eligibleの3変数だけ残す
+### select() という名前の関数は、dplyrパッケージ (tidyverseで読み込んだ)
+### とinterplotパッケージの両者に含まれるので、dplyrを指定して使う
 HR05 <- HR %>%
   filter(year == 2005) %>% 
-  select(voteshare, exppv, eligible)
+  dplyr::select(voteshare, exppv, eligible)
+
 
 summary(HR05)  # 記述統計の確認
 

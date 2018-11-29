@@ -1,0 +1,225 @@
+---
+title: "Rによる計量政治学：練習問題の解答例"
+subtitle: "第14章 交差項の使い方"
+author: "浅野正彦, 矢内勇生"
+date: "2018-11-28"
+output:
+    html_document:
+        theme: united
+        highlight: tango
+        css: my-markdown.css
+        toc: true
+        self_contained: true
+---
+
+```{r global_option, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, echo = TRUE, message = FALSE,
+                      fig.width = 5, fig.height = 4)
+```
+
+## パッケージの読み込み
+
+```{r load-packs}
+library("tidyverse")
+if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
+  theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+} 
+library("interplot")
+if (!requireNamespace("jtools")) {
+  install.packages("jtools")
+}
+library("jtools")
+```
+
+
+## Q14-1
+
+### Q14-1-1
+
+Rds形式の衆院選データ (hr-data.Rds) を読み込み、「HR」というデータフレーム名を付ける。
+手元にない場合はまずダウンロードする。
+```{r read-HR-data}
+# dir.create("data") # dataディレクトリがない場合は作る
+#download.file(url = "https://git.io/fp00p",
+#              destfile = "data/hr-data.Rds")
+HR <- read_rds("data/hr-data.Rds")
+## Rdsファイルの読み込みがうまくいかない場合は以下を実行してCSVファイルを使う
+#download.file(url = "https://git.io/fxhQU",
+#              destfile = "data/hr-data.csv")
+#HR <- read_csv("data/hr-data.csv")
+```
+
+データが正しく読み込めたか確認する。
+```{r}
+glimpse(HR)
+```
+
+`dplyr::filter()` と `dplyr::select()` を使って、2012年の衆院選データだけを切り取り、分析で使う変数 (voteshare, exppv, previous) だけを選ぶ（`select()`という名前の関数は**interplot**パッケージにもあるので、`dplyr::select()`と明示する。）。  
+```{r}
+hr2012 <- HR %>% 
+  filter(year == 2012) %>% 
+  dplyr::select(voteshare, exppv, previous)
+```
+
+`summary()` を使った記述統計  
+```{r}
+summary(hr2012)
+```
+
+### Q14-1-2
+
+選挙費用 (exppv) と得票率 (voteshare) の散布図を描いてみる。  
+```{r}
+plt12_vs_ex <- ggplot(hr2012, aes(x = exppv, y = voteshare)) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    labs(x = "有権者一人当たり選挙費用（円）", y = "得票率(%)")
+print(plt12_vs_ex)
+```
+
+両者の間には正の相関がありそうだ。
+
+同様に、当選回数 (previous) と得票率 (voteshare) の散布図を描いてみる。 
+```{r}
+plt12_vs_prev <- ggplot(hr2012, aes(x = previous, y = voteshare)) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    labs(x = "当選回数", y = "得票率(%)")
+print(plt12_vs_prev)
+```
+
+当選回数と得票率の間にも正の相関がありそうに見える。
+
+相関係数も計算してみる。
+```{r}
+cor(hr2012, use = "pairwise.complete.obs")
+```
+やはり正の相関はあるが、それほど強い相関ではないことがわかる。
+
+
+### Q14-1-3
+
+- 仮説：「当選回数が増えるほど、選挙費用が得票に与える影響は小さくなる」
+- 理由：当選回数が増える程、候補者の認知度も徐々に上がっていく。認知度が上がれば、それほど選挙費用を使わなくても当選に必要な票が得られるため、得票に与える選挙費用の影響力は相対的に減少すると考えられるから。
+
+
+### Q14-1-4
+
+選挙費用 (exppv) が得票率 (voteshare) に与える影響が当選回数 (previous) によって変わるかどうか検証するため、交差項 (exppv  $\times$ previous) を含めた次の重回帰分析を行う。 有意水準は1% (0.01) に設定する。
+
+```{r}
+fit_2012 <- lm(voteshare ~ exppv * previous, data = hr2012)
+```
+
+分析結果を表示させる。  
+```{r}
+summary(fit_2012)
+```  
+
+交差項 (exppv:previous) の $p$値がほぼ 0 (2e-16未満) であり、有意水準である0.01より小さいことから、交差項の係数 ($`r round(coef(fit_2012)[4], 2)`$) は統計的に有意であると考えられる。すなわち、選挙費用が得票率に与える影響は、当選回数の多寡と関係があるということことがわかる。
+
+
+### Q14-1-5
+
+上記の結果から、次の回帰式が得られる。
+$$
+\widehat{得票率}
+= `r round(coef(fit_2012)[1], 2)` + `r round(coef(fit_2012)[2], 2)` \cdot 1人当たり選挙費用 +  `r round(coef(fit_2012)[3], 2)` \cdot 当選回数 `r round(coef(fit_2012)[4], 2)` \cdot 1人当たり選挙費用 \times 当選回数
+$$
+1人当たり選挙費用の係数をまとめると、
+$$
+\widehat{得票率} = `r round(coef(fit_2012)[1], 2)` + (`r round(coef(fit_2012)[2], 2)` `r round(coef(fit_2012)[4], 2)` \cdot 当選回数) \cdot 1人当たり選挙費用 +  `r round(coef(fit_2012)[3], 2)` \cdot 当選回数
+$$
+となる。
+
+この結果を解釈しよう。
+
+- exppv を構成要素とする交差項があるので、exppv の係数 ($`r round(coef(fit_2012)[2], 2)`$) は、交差項のもう一つの構成要素である当選回数 (previous) が 0回のときの効果である。つまり、当選回数が0の候補者が有権者1人当たりに使う選挙費用を1円増やすごとに、得票率が $`r round(coef(fit_2012)[2], 2)`$ポイントずつ上がる。
+- 選挙費用の効果について理解するためには、調整変数である当選回数 (previous) に複数の値を代入し、それぞれの場合における効果を確認する必要がある。  
+
+当選回数が0と4の場合について、選挙費用の効果を図示する（ [Q14-1-1](#Q14-1-1) より、過去の当選回数の平均値は`r round(mean(hr2012$previous), 2)`回、標準偏差は`r round(sd(hr2012$previous), 2)`回である）。
+
+当選回数が0回の場合 (previous = 0) の回帰式は、
+$$
+\widehat{得票率} = `r round(coef(fit_2012)[1], 2)` + (`r round(coef(fit_2012)[2], 2)` `r round(coef(fit_2012)[4], 2)` \cdot 0) \cdot 1人当たり選挙費用 +  `r round(coef(fit_2012)[3], 2)` \cdot 0
+$$
+$$
+ = `r round(coef(fit_2012)[1], 2)` + `r round(coef(fit_2012)[2], 2)` \cdot 1人当たり選挙費用
+$$
+となる。
+
+また、当選回数が4回の場合 (previous = 4) の回帰式は、
+$$
+\widehat{得票率} = `r round(coef(fit_2012)[1], 2)` + (`r round(coef(fit_2012)[2], 2)` `r round(coef(fit_2012)[4], 2)` \cdot 4) \cdot 1人当たり選挙費用 +  `r round(coef(fit_2012)[3], 2)` \cdot 4
+$$
+$$
+= `r round(coef(fit_2012)[1] + 4 * coef(fit_2012)[3], 2)` + `r round(coef(fit_2012)[2] + 4 * coef(fit_2012)[4], 2)` \cdot 1人当たり選挙費用
+$$
+となる。
+
+
+```{r}
+## Mac の場合
+plt_int <- ggplot(hr2012, aes(x = exppv, y = voteshare)) + 
+    geom_point(pch = 16) +
+    geom_abline(intercept = 6.18, slope = 0.73,
+                linetype = "dashed") +
+    geom_abline(intercept = 27.95, slope = 0.37) +
+    ylim(0, 100) +
+    labs(x = "選挙費用（有権者一人当たり：円）", y = "得票率 (%)") + 
+    geom_text(label = "得票率 = 6.18 + 0.73・選挙費用
+                       (当選回数 = 0 回)", 
+              x = 70, y = 95, family = "HiraginoSans-W3") +
+    geom_text(label = "得票率 = 27.95 + 0.37・選挙費用
+                       (当選回数 = 4 回)", 
+              x = 70, y = 2, family = "HiraginoSans-W3")
+## Windows の場合
+#plt_int <- ggplot(hr2012, aes(x = exppv, y = voteshare)) + 
+#    geom_point(pch = 16) +
+#    geom_abline(intercept = 6.18, slope = 0.73,
+#                linetype = "dashed") +
+#    geom_abline(intercept = 27.95, slope = 0.37) + 
+#    ylim(0, 100) +
+#    labs(x = "選挙費用（有権者一人当たり：円）", y = "得票率 (%)") + 
+#    geom_text(label = "得票率 = 6.18 + 0.73・選挙費用
+#                       (当選回数 = 0 回)", 
+#              x = 70, y = 95) +
+#    geom_text(label = "得票率 = 28 + 0.37・選挙費用
+#                       (当選回数 = 4 回)", 
+#              x = 70, y = 2)
+print(plt_int)
+```
+
+### Q14-1-6
+
+```{r}
+plt_int2 <- interplot(m = fit_2012,       # 重回帰分析結果 (fit_2012) を指定
+                      var1 = "exppv",     # 係数を表示する変数を指定
+                      var2 = "previous",  # 条件付けする変数を指定
+  ci = 0.99) +                            # 有意水準が1%なので99%信頼区間を図示
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(x = "過去の当選回数",
+       y = "選挙費用の限界効果",
+       title = "選挙費用が得票率に与える影響と当選回数の関係")
+print(plt_int2)
+```
+
+調整変数である当選回数 (previous) の値が 7から10の範囲付近では 99% 信頼区間が 0を含んでいるため、この範囲においては限界効果が統計的に有意ではない。  
+
+
+#### **おまけ**
+
+**jtools**パッケージを使うと、限界効果が統計的に有意な範囲を色分けして表示できる。
+
+```{r}
+sim_slopes(fit_2012, pred = exppv, modx = previous,
+           jnalpha = 0.01)
+```
+
+```{r}
+johnson_neyman(fit_2012, pred = exppv, modx = previous,
+               alpha = 0.01)
+```
+
+調整変数である当選回数 (previous) の値が 6.68 から 10.05 では限界効果が統計的に有意ではないことがピンク色で示されている。
+
