@@ -2,7 +2,7 @@
 
 # 『Rによる計量政治学』
 
-<img src="misc/quant-methods-R-cover.pdf" alt="Rによる計量政治学" border="1" width="280" align="right" />
+<img src="misc/quant-methods-R-cover.png" alt="Rによる計量政治学" border="1" width="280" align="right" />
 
 ### [amazon.co.jpで予約](https://amazon.jp/dp/4274223132/) できます
 
