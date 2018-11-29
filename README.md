@@ -84,17 +84,17 @@
 - 第 2章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch02-answers.html)
 - 第 3章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch03-answers.html)
 - 第 4章：解答例なし（本文中に解説あり）
-- 第 5章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch05-answers.html)（Rmdファイル： [ch05-answers.Rmd](answers/ch05-answers.Rmd)）
-- 第 6章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch06-answers.html)（Rmdファイル： [ch06-answers.Rmd](answers/ch06-answers.Rmd)）
-- 第 7章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch07-answers.html)（Rmdファイル： [ch07-answers.Rmd](answers/ch07-answers.Rmd)）
+- 第 5章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch05-answers.html)（Rmdファイル： [ch05-answers.Rmd](exercises/ch05-answers.Rmd)）
+- 第 6章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch06-answers.html)（Rmdファイル： [ch06-answers.Rmd](exercises/ch06-answers.Rmd)）
+- 第 7章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch07-answers.html)（Rmdファイル： [ch07-answers.Rmd](exercises/ch07-answers.Rmd)）
 - 第 8章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch08-answers.html)（解答にRコード不要）
-- 第 9章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch09-answers.html)（Rmdファイル： [ch09-answers.Rmd](answers/ch09-answers.Rmd)）
-- 第10章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch10-answers.html)（Rmdファイル： [ch10-answers.Rmd](answers/ch10-answers.Rmd)）
-- 第11章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch11-answers.html)（Rmdファイル： [ch11-answers.Rmd](answers/ch11-answers.Rmd)）
-- 第12章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch12-answers.html)（Rmdファイル： [ch12-answers.Rmd](answers/ch12-answers.Rmd)）
-- 第13章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch13-answers.html)（Rmdファイル： [ch13-answers.Rmd](answers/ch13-answers.Rmd)）
-- 第14章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch14-answers.html)（Rmdファイル： [ch14-answers.Rmd](answers/ch14-answers.Rmd)）
-- 第15章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch15-answers.html)（Rmdファイル： [ch15-answers.Rmd](answers/ch15-answers.Rmd)）
+- 第 9章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch09-answers.html)（Rmdファイル： [ch09-answers.Rmd](exercises/ch09-answers.Rmd)）
+- 第10章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch10-answers.html)（Rmdファイル： [ch10-answers.Rmd](exercises/ch10-answers.Rmd)）
+- 第11章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch11-answers.html)（Rmdファイル： [ch11-answers.Rmd](exercises/ch11-answers.Rmd)）
+- 第12章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch12-answers.html)（Rmdファイル： [ch12-answers.Rmd](exercises/ch12-answers.Rmd)）
+- 第13章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch13-answers.html)（Rmdファイル： [ch13-answers.Rmd](exercises/ch13-answers.Rmd)）
+- 第14章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch14-answers.html)（Rmdファイル： [ch14-answers.Rmd](exercises/ch14-answers.Rmd)）
+- 第15章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch15-answers.html)（Rmdファイル： [ch15-answers.Rmd](exercises/ch15-answers.Rmd)）
 
 
 ## 関連書籍
