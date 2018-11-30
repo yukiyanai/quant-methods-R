@@ -1,6 +1,6 @@
 # quant-methods-R
 
-# 『Rによる計量政治学』
+# 『Rによる計量政治学』サポートページ
 
 <img src="misc/quant-methods-R-cover.png" alt="Rによる計量政治学" border="1" width="280" align="right" />
 
@@ -9,7 +9,7 @@
 - 著者
 	- [浅野 正彦 (Masahiko ASANO)](https://www.asanoucla.com/), Ph.D.
 	- [矢内 勇生 (Yuki YANAI)](http://www.yukiyanai.com), Ph.D.
-- 出版社：[オーム社]()
+- 出版社：[オーム社](https://www.ohmsha.co.jp/)
 - 出版年月：2018年12月
 - ISBN: 978-4274223132
 
@@ -95,7 +95,7 @@
 - 第13章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch13-answers.html)（Rmdファイル： [ch13-answers.Rmd](exercises/ch13-answers.Rmd)）
 - 第14章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch14-answers.html)（Rmdファイル： [ch14-answers.Rmd](exercises/ch14-answers.Rmd)）
 - 第15章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch15-answers.html)（Rmdファイル： [ch15-answers.Rmd](exercises/ch15-answers.Rmd)）
-- 練習問題の解答のRmdファイルで使っているCSSファイル：[my-markdown.css](exercises/my-markdown.css)
+- 解答例のRmdで使っているCSSファイル：[my-markdown.css](exercises/my-markdown.css)
 
 
 ## 関連書籍
