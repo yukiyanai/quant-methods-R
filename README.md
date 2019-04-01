@@ -22,6 +22,7 @@
   - [第I部 リサーチデザイン](#%E7%AC%ACi%E9%83%A8-%E3%83%AA%E3%82%B5%E3%83%BC%E3%83%81%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3)
   - [第II部 Rを使った計量分析の方法](#%E7%AC%ACii%E9%83%A8-r%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E8%A8%88%E9%87%8F%E5%88%86%E6%9E%90%E3%81%AE%E6%96%B9%E6%B3%95)
 - [本書で使用するデータ](#%E6%9C%AC%E6%9B%B8%E3%81%A7%E4%BD%BF%E7%94%A8%E3%81%99%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF)
+- [正誤表](#%E6%AD%A3%E8%AA%A4%E8%A1%A8)
 - [練習問題の解答](#%E7%B7%B4%E7%BF%92%E5%95%8F%E9%A1%8C%E3%81%AE%E8%A7%A3%E7%AD%94)
 - [関連書籍](#%E9%96%A2%E9%80%A3%E6%9B%B8%E7%B1%8D)
 
@@ -78,6 +79,31 @@
 	- [ex-ch05d.csv](data/ex-ch05a.csv)
 
 
+## 正誤表
+
+**tibble**パッケージ（`library("tidyverse")` で読み込まれる）で tibble（データフレーム）を作る関数が、`data_frame()` から `tibble()` に変更になったので、ご注意ください。
+
+| ページ | 場所 | 誤 | 正 | 解説 |Credit |
+| --- | ---| --- | --- |  --- | --- |
+|81  | 下から3行目 | `tibble::data_frame()` | `tibble::tibble()` | `data_frame()` が `tibble()` に置き換えられたため。| |
+|82  | 1つ目、2つ目、3つ目のRコード内 | `data_frame()` | `tibble()`  | 同上 | | 
+|188 | Rコード内                   | `data_frame()` | `tibble()`  | 同上 | | 
+|190 | 下から2つ目のRコード内        | `data_frame()` | `tibble()`  | 同上 | | 
+|192 | 一番下のRコード内            | `data_frame()` | `tibble()`   | 同上 | | 
+|249 | Rコード内                   | `data_frame()` | `tibble()`   | 同上 | | 
+|251 | 最初のRコード内              | `data_frame()` | `tibble()`   | 同上 | | 
+|309 | 最初のRコード内              | `data_frame()` | `tibble()`   | 同上 | | 
+|310 | 2番目のRコード内             | `data_frame()` | `tibble()`   | 同上 | | 
+|314 | 下から2つ目のRコード内        | `data_frame()` | `tibble()`   | 同上 | | 
+|317 | 最初と2つ目のRコード内        | `data_frame()` | `tibble()`   | 同上 | | 
+|323 | ページ下部のRコード内         | `data_frame()` | `tibble()`   | 同上 | | 
+|320 | 最初と2つ目のRコード内 | `as_data_frame()` | `as_tibble()` | `as_data_frame()` が `as_tibble()` に置き換えられたため。 | | 
+|326--327 | Rコード内（4箇所）| `as_data_frame()` | `as_tibble()`| 同上 | |
+| 172 | 2つ目のRコード | `hr09 <-` から始まるコード全体（3行分）　| `hr09 <- mutate(hr09, inc = fct_drop(status))` | 元のコードも誤りではないが、こっちの方が簡単。| [宋ジェヒョン](www.jaysong.net/)さん |
+
+
+
+
 ## 練習問題の解答
 
 - 第 1章：練習問題なし
@@ -96,6 +122,7 @@
 - 第14章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch14-answers.html)（Rmdファイル： [ch14-answers.Rmd](exercises/ch14-answers.Rmd)）
 - 第15章：[解答例](http://yukiyanai.github.io/jp/quant-methods-R/ch15-answers.html)（Rmdファイル： [ch15-answers.Rmd](exercises/ch15-answers.Rmd)）
 - 解答例のRmdで使っているCSSファイル：[my-markdown.css](exercises/my-markdown.css)
+
 
 
 ## 関連書籍
