@@ -99,7 +99,7 @@
 |323 | ページ下部のRコード内         | `data_frame()` | `tibble()`   | 同上 | | 
 |320 | 最初と2つ目のRコード内 | `as_data_frame()` | `as_tibble()` | `as_data_frame()` が `as_tibble()` に置き換えられたため。 | | 
 |326--327 | Rコード内（4箇所）| `as_data_frame()` | `as_tibble()`| 同上 | |
-| 172 | 2つ目のRコード | `hr09 <-` から始まるコード全体（3行分）　| `hr09 <- mutate(hr09, inc = fct_drop(status))` | 元のコードも誤りではないが、こっちの方が簡単。| [宋ジェヒョン](www.jaysong.net/)さん |
+| 172 | 2つ目のRコード | `hr09 <-` から始まるコード全体（3行分）　| `hr09 <- mutate(hr09, inc = fct_drop(status))` | 元のコードも誤りではないが、こっちの方が簡単。| [宋ジェヒョン](http://www.jaysong.net/)さん |
 
 
 
