@@ -74,9 +74,16 @@
 
 - 第5章の練習問題用データ
 	- [ex-ch05a.csv](data/ex-ch05a.csv)
-	- [ex-ch05b.csv](data/ex-ch05a.csv)
-	- [ex-ch05c.csv](data/ex-ch05a.csv)
-	- [ex-ch05d.csv](data/ex-ch05a.csv)
+	- [ex-ch05b.csv](data/ex-ch05b.csv)
+	- [ex-ch05c.csv](data/ex-ch05c.csv)
+	- [ex-ch05d.csv](data/ex-ch05d.csv)
+
+	
+## ggplot2の使い方についての補足
+
+- [ggplot2入門](http://yukiyanai.github.io/jp/classes/stat2/contents/R/intro-to-ggplot2.html)（高知工科大学「統計学2」の授業用資料）
+
+
 
 
 ## 正誤表
