@@ -64,7 +64,7 @@
 
 - 政党名の日本語表記と英語（ローマ字）表記の対応表：[parties.csv](data/parties.csv)
 
-- 2010年のビールの売り上げと気温のデータ：[beer.csv](data/beer.csv)
+- 2010年のビールの売り上げと気温のデータ：[beer2010.csv](data/beer2010.csv)
 	- 出所 (1) [総務省統計局](http://www.stat.go.jp/info/link/getujidb.html)
 	- 出所 (2) [アサヒビール社](http://www.asahibeer.co.jp/ir/monthlydata/index.html)
 
