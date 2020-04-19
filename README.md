@@ -61,10 +61,13 @@
 
 **Rdsファイルについての注意（2020-04-09 追記）**：Windows OS で `download.file()` 関数を使って Rdsファイル（例：hr-data.Rds）をダウンロードして使おうとすると、`read_rds()` の時点でエラーが出ることがあるようです。その場合は、Rdsファイルの代わりに同じ内容の CSVファイル（例：hr-data.csv）をダウンロードし、`read_csv()` で読み込んでください。
 
-- 衆議院議員総選挙小選挙区候補者データ, 1996-2017
+- 衆議院議員総選挙小選挙区候補者データ, 1996-2017（データに誤りがあったので修正しました [2020-04-19]。[福元健太郎](https://www-cc.gakushuin.ac.jp/~e982440/index.htm)さんにご指摘いただきました。）
+	
 	- 元のCSVファイル：[hr96-17.csv](data/hr96-17.csv)
 	- 第5章で手を加えたもの：[hr96-17.Rds](data/hr96-17.Rds)
 	- 第6章でさらに手を加えたもの：[hr-data.Rds](data/hr-data.Rds)（CSV版：[hr-data.csv](data/hr-data.csv)）
+
+	
 
 - 政党名の日本語表記と英語（ローマ字）表記の対応表：[parties.csv](data/parties.csv)
 
