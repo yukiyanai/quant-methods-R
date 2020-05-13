@@ -5,15 +5,7 @@
 <img src="misc/quant-methods-R-cover.png" alt="Rによる計量政治学" border="1" width="280" align="right" />
 
 
-- 以下のサイトで購入できます。
-	- [オーム社](https://www.ohmsha.co.jp/book/9784274223136/)
-	- amazon.co.jp: [紙の本](https://amazon.jp/dp/4274223132/), [Kindle版](https://www.amazon.co.jp/dp/B07MLQY88W/ref=cm_sw_r_tw_dp_U_x_twJUEbEH0DYXH)
-	- 楽天ブックス:  [紙の本](https://books.rakuten.co.jp/rb/15717574/?l-id=search-c-item-text-02), [電子書籍](https://books.rakuten.co.jp/rk/2b3768d047893d42b91c874de3897a0c/?l-id=search-c-item-text-01)
-	- セブンネットショッピング: [紙の本](https://7net.omni7.jp/detail/1106949094)
-	- hontoネットストア: [電子書籍](https://honto.jp/ebook/pd_29465189.html)
-	- 紀伊國屋書店ウェブストア: [紙の本](https://www.kinokuniya.co.jp/f/dsg-01-9784274223136), [電子書籍](https://www.kinokuniya.co.jp/disp/CSfGoodsPage_001.jsp?CAT=08&GOODS_STK_NO=EK-0660652)
-	- Honya Club: [紙の本](https://www.honyaclub.com/shop/g/g19483620/)
-	- yodobashi.com: [紙の本](https://www.yodobashi.com/product/100000009003068448/), [電子書籍](https://www.yodobashi.com/product/100000086600786990/)
+**<a href="https://www.ohmsha.co.jp/book/9784274223136/" target="_blank">ここ</a>から購入できます**（電子書籍もあります）。
 
 - 著者
 	- [浅野 正彦 (Masahiko ASANO)](https://www.asanoucla.com/), Ph.D.
