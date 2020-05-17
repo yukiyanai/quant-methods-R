@@ -67,7 +67,7 @@
 	- 修正後のデータ (2020-04-19)
 		- 元のCSVファイル：[hr96-17.csv](data_fixed/hr96-17.csv)
 		- 第5章で手を加えたもの：[hr96-17.Rds](data_fixed/hr96-17.Rds)
-		- 第6章でさらに手を加えたもの：[hr-data.Rds](data_fiexed/hr-data.Rds)（CSV版：[hr-data.csv](data_fixed/hr-data.csv)）
+		- 第6章でさらに手を加えたもの：[hr-data.Rds](data_fixed/hr-data.Rds)（CSV版：[hr-data.csv](data_fixed/hr-data.csv)）
 
 	- 修正前のデータ（教科書通りの分析結果を再生するためのデータ）
 		- 元のCSVファイル：[hr96-17.csv](data/hr96-17.csv)
