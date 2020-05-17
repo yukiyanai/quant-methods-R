@@ -64,10 +64,15 @@
 
 - 衆議院議員総選挙小選挙区候補者データ, 1996-2017（データに誤りがあったので修正しました [2020-04-19]。[福元健太郎](https://www-cc.gakushuin.ac.jp/~e982440/index.htm)さんにご指摘いただきました。）
 	
-	- 元のCSVファイル：[hr96-17.csv](data/hr96-17.csv)
-	- 第5章で手を加えたもの：[hr96-17.Rds](data/hr96-17.Rds)
-	- 第6章でさらに手を加えたもの：[hr-data.Rds](data/hr-data.Rds)（CSV版：[hr-data.csv](data/hr-data.csv)）
+	- 修正後のデータ (2020-04-19)
+		- 元のCSVファイル：[hr96-17.csv](data_fixed/hr96-17.csv)
+		- 第5章で手を加えたもの：[hr96-17.Rds](data_fixed/hr96-17.Rds)
+		- 第6章でさらに手を加えたもの：[hr-data.Rds](data_fiexed/hr-data.Rds)（CSV版：[hr-data.csv](data_fixed/hr-data.csv)）
 
+	- 修正前のデータ（教科書通りの分析結果を再生するためのデータ）
+		- 元のCSVファイル：[hr96-17.csv](data/hr96-17.csv)
+		- 第5章で手を加えたもの：[hr96-17.Rds](data/hr96-17.Rds)
+		- 第6章でさらに手を加えたもの：[hr-data.Rds](data/hr-data.Rds)（CSV版：[hr-data.csv](data/hr-data.csv)）
 	
 
 - 政党名の日本語表記と英語（ローマ字）表記の対応表：[parties.csv](data/parties.csv)
