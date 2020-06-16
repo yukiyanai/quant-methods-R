@@ -108,7 +108,7 @@
 
 | ページ | 場所 | 誤 | 正 | 解説 |Credit |
 | --- | ---| --- | --- |  --- | --- |
-|73  | Rの出力（クロス表）の1行目 | 862 | 863 |  | [小林 哲郎](https://researchmap.jp/munimuni/?lang=ja)さん |
+|73  | Rの出力（クロス表）の1行目 | 862 | 861 |  | [小林 哲郎](https://researchmap.jp/munimuni/?lang=ja)さん |
 |73  | Rの出力（クロス表）の2行目 | 2378 | 2379 |  | [小林 哲郎](https://researchmap.jp/munimuni/?lang=ja)さん |
 |97  | `class(HR$wl)` の結果 | integer | numeric | 現在最新のRとreadr では、numeric になるようです(2020-06-16) | |
 |97  | Rの出力 | 5563, 2378, 862 | 5563, 2379, 861 |  | |
