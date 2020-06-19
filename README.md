@@ -113,7 +113,7 @@
 |97  | Rの出力 | 5563, 2378, 862 | 5563, 2379, 861 |  | |
 |98  | Rの出力（ページ上部） | 5563, 2378, 862 | 5563, 2379, 861 |  | |
 |98  | Rの出力 （ページ下部）| 5107, 3128, 568 | 5096, 3138, 569 |  | |
-|251  | 2つ目のコードブロック |`geom_abline(a = 0, b = 1, ...)` | `geom_abline(intercept = 0, slope = 1, ...)`| `geom_abline()` の引数が変更されたため。 | [籠谷公司](https://sites.google.com/site/kojikagotani/)さん |
+|251  | 2つ目のコードブロック |`geom_abline(a = 0, b = 1, ...)` | `geom_abline(intercept = 0, slope = 1, ...)`| 配布しているRスクリプト（[ch12.R](chapters-Rscripts/ch12.R)）では、当初から正しいコードになっています。 | [籠谷公司](https://sites.google.com/site/kojikagotani/)さん |
 
 
 
