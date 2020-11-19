@@ -111,7 +111,12 @@
 |111  | 1行目 | 得票率のヒストグラム | 年齢のヒストグラム | | 早稲田の学生さん |
 |128  | 5行目 | 標準平均の標準偏差 | 標本平均の標準偏差  | | 早稲田の学生さん |
 |153  | 脚注22 | 支持するような | 支持するように |  | 早稲田の学生さん |
-|156  | 23行目 | $\mu_1$ | $\mu$ | | 早稲田の学生さん |
+|156  | 23行目 | <img src=
+"https://render.githubusercontent.com/render/math?math=%5Ctextstyle+%5Cmu_1%0A" 
+alt="\mu_1
+"> | <img src=
+"https://render.githubusercontent.com/render/math?math=%5Ctextstyle+%5Cmu_1%0A" 
+alt="\mu | | 早稲田の学生さん |
 |241  | Q11-1 | 選挙費用と年齢 | 選挙費用と年齢または過去の当選回数 | | |
 
 
