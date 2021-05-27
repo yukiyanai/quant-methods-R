@@ -3,7 +3,8 @@
 ## 浅野正彦・矢内勇生. 2018. 『Rによる計量政治学』オーム社
 ## 第5章 Rによるデータ操作
 ##
-## Created: 2018-11-22 Yuki Yanai
+## Created:  2018-11-22 Yuki Yanai
+## Modified: 2021-05-27 Yuki Yanai
 
 
 ####################################################
@@ -46,7 +47,7 @@ glimpse(myd)  # myd の中身を確認する
 ####################################################
 
 ## 衆院選データを読み込んで、中身を確認する
-HR <- read_csv("data/hr96-17.csv", na = ".")
+HR <- readr::read_csv("data/hr96-17.csv", na = ".")
 glimpse(HR)
 
 ## expm という新しい変数を作る
@@ -98,15 +99,16 @@ seq(from = 2, to = (10 - 2), by = 2)  # 上の行と同じ
 download.file(url = "https://git.io/fAnmx",
               destfile = "data/wide-table.csv")
 ## データを読み込む
-GDP <- read_csv("data/wide-table.csv")
+GDP <- readr::read_csv("data/wide-table.csv")
 GDP  # 小規模データなので全部表示
 
-## 横長データを縦長に変換する (1)
+## 横長データを縦長に変換する (1)： 教科書で説明した方法（古い方法）
 long <- tidyr::gather(data = GDP, key = "year",
                       value = "gdp", starts_with("gdp"))
 long  # 小規模データなので全部表示
 
-## 横長データを縦長に変換する (2)
+
+## 横長データを縦長に変換する (2)：  教科書で説明した方法（古い方法）
 long <- GDP %>%
   rename(`2000` = gdp2000,
          `2005` = gdp2005,
@@ -115,7 +117,18 @@ long <- GDP %>%
   arrange(country)
 long  # 小規模データなので全部表示
 
-# 縦長を横長にする
+
+## 横長データを縦長に変換する新しい方法：教科書出版後に登場した方法
+long_new <- GDP %>% 
+  tidyr::pivot_longer(
+    cols = gdp2000:gdp2010,
+    names_to = "year",
+    names_prefix = "gdp",
+    values_to = "gdp")
+long_new  # 小規模データなので全部表示
+
+
+# 縦長を横長にする： 教科書で説明した方法（古い方法）
 wide <- long %>%
   tidyr::spread(key = "year", value = "gdp") %>%
   rename(gdp2000 = `2000`,
@@ -124,7 +137,17 @@ wide <- long %>%
 wide  # 小規模データなので全部表示
 
 
-## 表5.3, 5.4, 5.5 と同内容の表を作る
+# 縦長を横長にする：教科書出版後に登場した方法
+wide_new <- long_new %>% 
+  tidyr::pivot_wider(
+    names_from = "year",
+    names_prefix = "gdp",
+    names_sep = "",
+    values_from = "gdp")
+wide_new
+
+
+## 表5.3, 5.4, 5.5 と同内容の表を作る： 教科書で説明した方法（古い方法：警告が出る）
 A <- data_frame(country = c("Japan", "USA"),
                 presidential = c(FALSE, TRUE),
                 federal = c(FALSE, TRUE))
@@ -137,6 +160,22 @@ C <- data_frame(country = c("Japan", "USA"),
                 two_party = c(FALSE, TRUE),
                 EU = c(FALSE, FALSE))
 C
+
+
+## 表5.3, 5.4, 5.5 と同内容の表を作る： 教科書出版後に登場した新しい方法
+A <- tibble(country = c("Japan", "USA"),
+            presidential = c(FALSE, TRUE),
+            federal = c(FALSE, TRUE))
+A 
+B <- tibble(country = c("France", "Germany"),
+            presidential = c(TRUE, FALSE),
+            federal = c(FALSE, TRUE))
+B
+C <- tibble(country = c("Japan", "USA"),
+            two_party = c(FALSE, TRUE),
+            EU = c(FALSE, FALSE))
+C
+
 
 ## AとBを縦に結合する
 (AB <- bind_rows(A, B))
@@ -183,4 +222,9 @@ with(HR, table(party, party_jpn))
 ####################################################
 
 ## 衆院選データに変更を加えたものを、新しいRdsファイルとして保存する
+## 教科書で説明した方法（古い方法：警告が出る）
 readr::write_rds(HR, path = "data/hr96-17.Rds")
+
+## 衆院選データに変更を加えたものを、新しいRdsファイルとして保存する
+## 教科書出版後に登場した新しい方法
+readr::write_rds(HR, file = "data/hr96-17.Rds")
