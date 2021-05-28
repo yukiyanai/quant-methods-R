@@ -5,6 +5,7 @@
 ##
 ## Created:  2018-11-22 Yuki Yanai
 ## Modified: 2021-05-27 Yuki Yanai
+##           2021-05-28 Yuki Yanai
 
 
 ####################################################
@@ -58,12 +59,21 @@ HR <- mutate(HR,
              vs = voteshare / 100,
              exppv = exp / eligible)
 
-## 2017年選挙に立候補した自民党以外の候補者だけ抜き出す
-HR07_nonLDP <- filter(HR, year == 2017, party != "LDP")
-
 ## 小選挙区での勝利を示す変数 smd を作る
 HR <- mutate(HR, smd = ifelse(wl == 1, 1, 0))
 with(HR, table(smd, wl))  # 正しくできたか確認
+
+## 1996年のデータを抜き出す
+HR96 <- filter(HR, year == 1996)
+
+## 自民党以外の候補者のみ取り出す
+HR_nonLDP <- filter(HR, party != "LDP")
+
+
+## 2017年選挙に立候補した自民党以外の候補者だけ抜き出す
+HR07_nonLDP <- filter(HR, year == 2017, party != "LDP")
+
+
 
 ## 特定の変数だけ抜き出す
 HR_sml_1 <- select(HR, party, voteshare, exp)
@@ -76,7 +86,8 @@ HR_sorted_1 <- arrange(HR, voteshare)
 HR_sorted_2 <- arrange(HR, desc(voteshare))
 
 ## 変数の名前を変更する
-HR_sorted_3 <- rename(HR_sorted_2, district = ku)
+HR_sorted_3 <- rename(HR_sorted_2, 
+                      district = ku)
 
 
 ## パイプ演算子
@@ -144,10 +155,11 @@ wide_new <- long_new %>%
     names_prefix = "gdp",
     names_sep = "",
     values_from = "gdp")
-wide_new
+wide_new  # 小規模データなので全部表示
 
 
-## 表5.3, 5.4, 5.5 と同内容の表を作る： 教科書で説明した方法（古い方法：警告が出る）
+## 表5.3, 5.4, 5.5 と同内容の表を作る
+## 教科書で説明した方法（古い方法：警告が出る）
 A <- data_frame(country = c("Japan", "USA"),
                 presidential = c(FALSE, TRUE),
                 federal = c(FALSE, TRUE))
@@ -162,7 +174,8 @@ C <- data_frame(country = c("Japan", "USA"),
 C
 
 
-## 表5.3, 5.4, 5.5 と同内容の表を作る： 教科書出版後に登場した新しい方法
+## 表5.3, 5.4, 5.5 と同内容の表を作る
+## 教科書出版後に登場した新しい方法
 A <- tibble(country = c("Japan", "USA"),
             presidential = c(FALSE, TRUE),
             federal = c(FALSE, TRUE))
@@ -222,7 +235,7 @@ with(HR, table(party, party_jpn))
 ####################################################
 
 ## 衆院選データに変更を加えたものを、新しいRdsファイルとして保存する
-## 教科書で説明した方法（古い方法：警告が出る）
+## 教科書で説明した古い方法（警告が出る）
 readr::write_rds(HR, path = "data/hr96-17.Rds")
 
 ## 衆院選データに変更を加えたものを、新しいRdsファイルとして保存する

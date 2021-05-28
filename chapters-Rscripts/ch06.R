@@ -3,7 +3,8 @@
 ## 浅野正彦・矢内勇生. 2018. 『Rによる計量政治学』オーム社
 ## 第6章 記述統計とデータの可視化・視覚化
 ##
-## Created: 2018-11-22 Yuki Yanai
+## Created:  2018-11-22 Yuki Yanai
+## Modified: 2021-05-28 Yuki Yanai
 
 
 ## tidyverseパッケージをインストール済みでない場合はインストール
@@ -11,8 +12,9 @@ if(!requireNamespace("tidyverse")) install.packages("tidyverse")
 
 ## tidyverse パッケージを読み込む
 library("tidyverse")
-## 次の行はMacユーザのみ実行する（Windowsユーザは削除するかコメントアウトする）
-theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
+  theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+}     
 
 
 ####################################################
@@ -50,25 +52,33 @@ with(HR, table(wl))  # 上の行とほぼ同じ
 class(HR$wl)  # class属性の確認
 
 ## wl を factor型に変換する
-HR <- mutate(HR, wl = factor(wl, levels = 0:2,
+HR <- mutate(HR, wl = factor(wl, 
+                             levels = 0:2,
                              labels = c("落選", "当選", "復活当選")))
 class(HR$wl)         # class属性の確認
 with(HR, table(wl))  # もう1度表を!
 
 ## status をfactor型に
 HR <- HR %>% 
-  mutate(status = factor(status, levels = 0:2,
+  mutate(status = factor(status, 
+                         levels = 0:2,
                          labels = c("新人", "現職", "元職")))
 with(HR, table(status))
 
 ## smd をfactor 型に
 HR <- HR %>% 
-  mutate(smd = factor(smd, levels = 0:1,
+  mutate(smd = factor(smd, 
+                      levels = 0:1,
                       labels = c("落選", "当選")))
 with(HR, table(smd))
 
 ## このデータを新しいRdsファイルに保存する
+## 教科書で説明した古い方法（警告が出る）
 write_rds(HR, path = "data/hr-data.Rds")
+
+## このデータを新しいRdsファイルに保存する
+## 教科書出版後に登場した新しい方法
+write_rds(HR, file = "data/hr-data.Rds")
 
 
 ## 2変数のクロス表を作る
@@ -129,10 +139,18 @@ hist1 <- ggplot(HR, aes(x = expm)) +
 print(hist1)
 
 ## ヒストグラムの縦軸を確率密度 (density) に変える
+## 教科書で説明した古い方法
 hist2 <- ggplot(HR, aes(x = expm, y = ..density..)) +
   geom_histogram(color = "black") + 
   labs(x = "選挙費用（100万円）", y = "確率密度")
 print(hist2)
+
+## ヒストグラムの縦軸を確率密度 (density) に変える
+## 教科書出版後に登場した新しい方法
+hist2new <- ggplot(HR, aes(x = expm, y = after_stat(density))) +
+  geom_histogram(color = "black") + 
+  labs(x = "選挙費用（100万円）", y = "確率密度")
+print(hist2new)
 
 
 ## 年齢ageの五数要約
@@ -185,6 +203,8 @@ dev.off()
 
 ## Windows で日本語を含む図を保存する方法
 ## 上で作った hist1 をPDFファイルに保存する
+## "Japan1GothicBBB" でうまくいなかにときは、"Japan1" を試す
 #pdf(file = "figs/hist-exp.pdf", family = "Japan1GothicBBB", width = 3, height = 2)
 #print(hist1)
 #dev.off()
+

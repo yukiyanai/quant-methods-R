@@ -3,13 +3,15 @@
 ## 浅野正彦・矢内勇生. 2018. 『Rによる計量政治学』オーム社
 ## 第7章 統計的推定
 ##
-## Created: 2018-11-22 Yuki Yanai
+## Created:  2018-11-22 Yuki Yanai
 ## Modified: 2018-11-24 YY
+##           2021-05-28 YY
 
 ## tidyverse パッケージを読み込む
 library("tidyverse")
 if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
-  theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+  theme_set(theme_gray(base_size = 10, 
+                       base_family = "HiraginoSans-W3"))
 }     
 
 
@@ -32,7 +34,8 @@ sd(population)
 
 ## 図7.3 母集団の分布
 hist_pop <- data_frame(pop = population) %>% 
-  ggplot(aes(x = pop, y = ..density..)) +
+  ggplot(aes(x = pop, y = ..density..)) +           # 古い書き方
+  #ggplot(aes(x = pop, y = after_stat(density))) +  # 新しい書き方
     geom_histogram(binwidth = 1, color = "black") +
     xlim(140, 200) + ylim(0, 0.6) +
     labs(x = "身長 (cm)", y = "確率密度")
@@ -49,7 +52,9 @@ df <- data_frame(means_s10 = colMeans(size10))
 
 ## 図7.4
 ## 標本平均の標本分布をヒストグラムにする
-hist_size10 <- ggplot(df, aes(x = means_s10, y = ..density.. )) +
+hist_size10 <- df %>% 
+  ggplot(aes(x = means_s10, y = ..density.. )) + # 古い書き方
+  #ggplot(aes(x = means_s10, y = after_stat(density))) + # 新しい書き方
   geom_histogram(binwidth = 1, color = "black") +
   xlim(140, 200) + ylim(0, 0.6) +
   labs(x = expression(paste("身長の標本平均 ", bar(x), " (cm)")),
@@ -70,7 +75,9 @@ df <- mutate(df, means_s90 = colMeans(size90))
 
 ## 図7.5
 ## 標本平均の標本分布をヒストグラムにする
-hist_size90 <- ggplot(df, aes(x = means_s90, y = ..density.. )) +
+hist_size90 <- df %>% 
+  ggplot(aes(x = means_s90, y = ..density.. )) + # 古い書き方
+  #ggplot(aes(x = means_s90, y = after_stat(density))) + # 新しい書き方
   geom_histogram(binwidth = 1, color = "black") +
   xlim(140, 200) + ylim(0, 0.6) +
   labs(x = expression(paste("身長の標本平均 ", bar(x), " (cm)")),
@@ -94,8 +101,10 @@ df_t <- data_frame(x = seq(-3, 3, length.out = 100)) %>%
          `5` = dt(x, df = 5),
          `99` = dt(x, df = 99)) %>% 
   gather(key = "df", value = "density", `1`:`99`)
-t_dist <- ggplot(df_t, aes(x = x, y = density,
-                           color = df, linetype = df)) +
+t_dist <- ggplot(df_t, aes(x = x, 
+                           y = density,
+                           color = df, 
+                           linetype = df)) +
   geom_line() +
   labs(x = "", y = "確率密度") +
   scale_x_continuous(breaks = -3:3) +
@@ -123,9 +132,11 @@ for (i in 1:1000) {
 }
 ## それぞれの標本の平均と標準偏差を求めてデータフレームの変数にする。
 ## その後、標準誤差 se と95%信頼区間の下限 lb、上限ub を計算するn
-df_ci <- data_frame(id = 1:1000,
-                    means = colMeans(res),
-                    sds = apply(res, MARGIN = 2, FUN = sd)) %>% 
+df_ci <- data_frame(      # 古い書き方
+         #tibble(         # 新しい書き方
+           id = 1:1000,　　　　
+           means = colMeans(res),
+           sds = apply(res, MARGIN = 2, FUN = sd)) %>% 
   mutate(se = sds / sqrt(n),
          lb = means + qt(p = 0.025, df = 99, lower.tail = TRUE) * se,
          ub = means + qt(p = 0.025, df = 99, lower.tail = FALSE) * se)
