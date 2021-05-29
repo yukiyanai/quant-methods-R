@@ -3,15 +3,14 @@
 ## 浅野正彦・矢内勇生. 2018. 『Rによる計量政治学』オーム社
 ## 第15章 ロジスティック回帰分析
 ##
-## Created: 2018-11-23 Yuki Yanai
+## Created:  2018-11-23 Yuki Yanai
 ## Modified: 2018-11-24 YY
+##           2021-05-29 YY
 
 ## 利用するパッケージを読み込む
 library("tidyverse")
 library("ROCR")
 library("margins")
-if(!require("devtools")) install.packages("devtools")
-if(!require("patchwork")) devtools::install_github("thomasp85/patchwork")
 library("patchwork")
 if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
   theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
@@ -88,7 +87,8 @@ fk_2 <- ggplot(Fake, aes(x = expm, y = wlsmd)) +
 print(fk_2)
 
 ## ロジスティック回帰式の推定
-model_1 <- glm(wlsmd ~ previous + expm, data = Fake,
+model_1 <- glm(wlsmd ~ previous + expm,
+               data = Fake,
                family = binomial(link = "logit"))
 summary(model_1)
 
@@ -96,10 +96,12 @@ summary(model_1)
 ## 図15.5
 ## 過去の当選回数に応じた当選の予測確率を図示する
 ## 選挙費用は標本平均に固定する
-pred_prev <-  data_frame(
+pred_prev <-  tibble(     # 新しい書き方
+              #data_frame( # 古い書き方
   previous = min(Fake$previous):max(Fake$previous),
   expm = mean(Fake$expm))
-pred_prev$fit <- predict(model_1, type = "response",
+pred_prev$fit <- predict(model_1, 
+                         type = "response",
                          newdata = pred_prev)
 plt_prev <- ggplot(Fake, aes(x = previous)) +
   geom_hline(yintercept = c(0, 1), color = "gray") +
@@ -113,10 +115,12 @@ print(plt_prev)
 ## 図15.5
 ## 選挙費用に応じた当選の予測確率を図示する
 ## 当選回数は標本平均に固定する
-pred_expm <-  data_frame(
+pred_expm <-  tibble(     # 新しい書き方
+              #data_frame( # 古い書き方
   expm = seq(0, max(Fake$expm), length.out = 100),
   previous = mean(Fake$previous))
-pred_expm$fit <- predict(model_1, type = "response",
+pred_expm$fit <- predict(model_1, 
+                         type = "response",
                          newdata = pred_expm)
 plt_expm <- ggplot(Fake, aes(x = expm)) +
   geom_hline(yintercept = c(0, 1), color = "gray") +
@@ -135,10 +139,14 @@ table(Pred, Fake$smd) %>% addmargins()
 
 ## ROC曲線とAUC
 pi_hat <- predict(model_1, type = "response")
-pr <- prediction(pi_hat, labels = Fake$wlsmd)
+## margins パッケージにも prediction() があるので、ROCR::prediction() と書く
+pr <- ROCR::prediction(pi_hat, labels = Fake$wlsmd)
 roc <- performance(pr, measure = "tpr", x.measure = "fpr")
-df_roc <- data_frame(fpr = roc@x.values[[1]],
-                     tpr = roc@y.values[[1]])
+df_roc <- tibble(fpr = roc@x.values[[1]],
+                 tpr = roc@y.values[[1]])
+#df_roc <- data_frame(fpr = roc@x.values[[1]],
+#                     tpr = roc@y.values[[1]])  # 古い書き方
+
 ## 図15.7：ROC曲線
 plt_roc <- ggplot(df_roc, aes(x = fpr, y = tpr)) +
   geom_line() +
@@ -230,7 +238,8 @@ summary(HR05)  # 記述統計の確認
 HR05 <- na.omit(HR05)
 
 ## 交差項のないモデルを推定する
-model_2 <- glm(smd ~ previous + expm, data = HR05,
+model_2 <- glm(smd ~ previous + expm, 
+               data = HR05,
                family = binomial(link = "logit"))
 summary(model_2)
 
@@ -275,7 +284,8 @@ margins(model_2, at = list(previous = seq(0, 8, by = 2),
 ## 限界効果を図示する
 mplt1 <- cplot(model_2, x = "expm", dx = "expm", 
                what = "effect", draw = FALSE) %>% 
-  as_data_frame() %>% 
+  #as_data_frame() %>%  # 古い方法
+  as_tibble() %>%      # 新しい方法
   ggplot(aes(x = xvals, y = yvals,
              ymin = lower, ymax = upper)) +
   geom_ribbon(fill = "gray") +
@@ -285,7 +295,8 @@ mplt1 <- cplot(model_2, x = "expm", dx = "expm",
 
 mplt2 <- cplot(model_2, x = "previous", dx = "expm",
                 what = "effect", draw = FALSE) %>% 
-  as_data_frame() %>% 
+  #as_data_frame() %>%  # 古い方法
+  as_tibble() %>%      # 新しい方法
   ggplot(aes(x = xvals, y = yvals,
              ymin = lower, ymax = upper)) +
   geom_ribbon(fill = "gray") +
@@ -295,7 +306,8 @@ mplt2 <- cplot(model_2, x = "previous", dx = "expm",
 
 mplt3 <- cplot(model_2, x = "expm", dx = "previous",
                what = "effect", draw = FALSE) %>% 
-  as_data_frame() %>% 
+  #as_data_frame() %>%  # 古い方法
+  as_tibble() %>%      # 新しい方法
   ggplot(aes(x = xvals, y = yvals,
              ymin = lower, ymax = upper)) +
   geom_ribbon(fill = "gray") +
@@ -305,7 +317,8 @@ mplt3 <- cplot(model_2, x = "expm", dx = "previous",
 
 mplt4 <- cplot(model_2, x = "previous", dx = "previous",
                what = "effect", draw = FALSE) %>% 
-  as_data_frame() %>% 
+  #as_data_frame() %>%  # 古い方法
+  as_tibble() %>%      # 新しい方法
   ggplot(aes(x = xvals, y = yvals,
              ymin = lower, ymax = upper)) +
   geom_ribbon(fill = "gray") +
@@ -324,7 +337,8 @@ mplt1 + mplt2 + mplt3 + mplt4 + plot_layout(ncol = 2, nrow = 2)
 ## 選挙費用に応じて予測当選確率が変わる様子を、当選回数別に図示
 df_pre <- expand.grid(previous = seq(0, 16, by = 2),
                       expm = seq(0, 24, by = 0.1)) %>%
-  as_data_frame()
+  #as_data_frame() %>%  # 古い方法
+  as_tibble()          # 新しい方法
 pred <- predict(model_2, type = "response",
                 newdata = df_pre, se.fit = TRUE)
 df_pre$fit <- pred$fit

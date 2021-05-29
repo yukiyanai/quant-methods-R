@@ -3,11 +3,12 @@
 ## 浅野正彦・矢内勇生. 2018. 『Rによる計量政治学』オーム社
 ## 第14章 交差項の使い方
 ##
-## Created: 2018-11-23 Yuki Yanai
+## Created:  2018-11-23 Yuki Yanai
 ## Modified: 2018-11-24 YY
 ##           2018-11-26 YY
+##           2021-05-29 YY
 
-## tidyverse パッケージを読み込む
+## パッケージを読み込む
 library("tidyverse")
 library("interplot")
 if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行

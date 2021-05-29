@@ -3,8 +3,9 @@
 ## 浅野正彦・矢内勇生. 2018. 『Rによる計量政治学』オーム社
 ## 第9章 変数間の関連性
 ##
-## Created: 2018-11-23 Yuki Yanai
+## Created:  2018-11-23 Yuki Yanai
 ## Modified: 2018-11-24 YY
+##           2021-05-29 YY
 
 ## tidyverse パッケージを読み込む
 library("tidyverse")
@@ -109,8 +110,10 @@ fisher.test(tbl_sml)
 ####################################################
 
 ## 標本サイズn=3のデータフレームxyを作る
-xy <- data_frame(x = c(1, 5, 10),
-                 y = c(1, 2, 10))
+xy <- data_frame(  # 古い方法
+      #tibble(      # 新しい方法
+  x = c(1, 5, 10),
+  y = c(1, 2, 10))
 ## xy に含まれる二変数xとyの散布図を描く
 scat1 <- ggplot(xy, aes(x = x, y = y)) +
   geom_point() +
@@ -122,8 +125,10 @@ with(xy, cor(x, y))
 with(xy, cor.test(x, y))
 
 ## 標本サイズn=300のデータフレームxy_largeを作る
-xy_large <- data_frame(x = rep(c(1, 5, 10), 100),
-                       y = rep(c(1, 2, 10), 100))
+xy_large <- data_frame(  # 古い方法
+            #tibble(      # 新しい方法
+  x = rep(c(1, 5, 10), 100),
+  y = rep(c(1, 2, 10), 100))
 nrow(xy_large)  # 標本サイズの確認
 ## xy_large に含まれる二変数xとyの散布図を描く（図9.6）
 scat2 <- ggplot(xy_large, aes(x = x, y = y)) +
@@ -138,13 +143,17 @@ with(xy_large, cor.test(x, y))
 ## 相関関係があっても因果関係がない状況のシミュレーション
 set.seed(2018-08-07)  # 乱数の種を指定する
 comp <- sample(c("接戦", "無風"), size = 100, replace = TRUE)
-money <- rnorm(100, sd = 0.2,
+money <- rnorm(100, 
+               sd = 0.2,
                mean = 0.4 + 0.5 * as.numeric(comp == "接戦"))
-turnout <- rnorm(100, sd = 0.1, 
+turnout <- rnorm(100, 
+                 sd = 0.1, 
                  mean = 0.4 + 0.3 * as.numeric(comp == "接戦"))
-df <- data_frame(money = money,
-                 turnout = turnout,
-                 comp = comp)
+df <- data_frame(  # 古い方法
+      #tibble(      # 新しい方法
+  money = money,
+  turnout = turnout,
+  comp = comp)
 head(df)
 
 ## 投票率 turnout と選挙費用の合計 money の散布図を描く

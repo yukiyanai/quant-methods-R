@@ -3,11 +3,16 @@
 ## 浅野正彦・矢内勇生. 2018. 『Rによる計量政治学』オーム社
 ## 第13章 回帰分析の応用
 ##
-## Created: 2018-11-22 Yuki Yanai
+## Created:  2018-11-22 Yuki Yanai
 ## Modified: 2018-11-24 YY
+##           2021-05-29 YY
 
 ## tidyverse パッケージを読み込む
 library("tidyverse")
+# makedummies パッケージをインストール済みでない場合はまずインストールする。
+# devtools（または remotes）パッケージが必要
+#install.packages("devtools")
+#devtools::install_github("toshi-ara/makedummies") 
 library("makedummies")
 if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
   theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
@@ -99,10 +104,8 @@ print(plt_dpj)
 err <- predict(fit_dpj, newdata = pred, se.fit = TRUE)
 ## 予測値と標準誤差を使って信頼区間を求める
 pred <- pred %>%
-  mutate(lower = err$fit + 
-           qt(0.025, df = err$df) * err$se.fit,
-         upper = err$fit + 
-           qt(0.975, df = err$df) * err$se.fit)
+  mutate(lower = err$fit + qt(0.025, df = err$df) * err$se.fit,
+         upper = err$fit + qt(0.975, df = err$df) * err$se.fit)
 
 ## 図13.2
 plt_dpj_ci <- plt_dpj +
@@ -137,7 +140,7 @@ HR2009 <- mutate(HR2009, party = as.character(party))
 HR2009 <- HR2009 %>%
   mutate(party = factor(party, 
                         levels = c(party_names[2], party_names[-2])))
-## 政党名を表にして、自民党が先頭になっていることを確認する
+## 政党名を表にして、自民党 (LDP) が先頭になっていることを確認する
 with(HR2009, table(party))
 
 ## 得票率 voteshare を選挙費用 expm と 所属政党に回帰する
@@ -230,6 +233,10 @@ print(plt_dpj3)
 ## --------
 ## 例13-4
 ## --------
+
+## 身長データ height.csv をダウンロードし、dataディレクトリに保存する
+#download.file(url = "https://git.io/fAnIr",
+#              destfile = "data/height.csv")
 
 HT <- read_csv("data/height.csv")  # データを読み込む
 glimpse(HT)  # 中身を確認

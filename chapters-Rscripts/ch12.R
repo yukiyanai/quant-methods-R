@@ -3,8 +3,9 @@
 ## 浅野正彦・矢内勇生. 2018. 『Rによる計量政治学』オーム社
 ## 第12章 回帰分析の前提と妥当性の診断
 ##
-## Created: 2018-11-22 Yuki Yanai
+## Created:  2018-11-22 Yuki Yanai
 ## Modified: 2018-11-24 YY
+##           2021-05-29 YY
 
 ## tidyverse パッケージを読み込む
 library("tidyverse")
@@ -36,8 +37,10 @@ glimpse(LDP2009)  # データの中身を確認
 fit <- lm(voteshare ~ expm + age, data = LDP2009)
 
 ## 残差と予測値の関係を散布図に描く
-res_plt <- data_frame(res = fit$residuals,
-                      fitted = fit$fitted.values) %>% 
+#res_plt <- data_frame(res = fit$residuals,
+#                      fitted = fit$fitted.values) %>%  # 古い方法
+res_plt <- tibble(res = fit$residuals,
+                  fitted = fit$fitted.values) %>% # 新しい方法
   ggplot(aes(x = fitted, y = res)) +
   geom_point() +
   geom_hline(yintercept = 0) +
@@ -46,7 +49,8 @@ print(res_plt)
 
 ## 標準化残差を計算する
 res <- fit$residuals
-df <- data_frame(z_res = (res - mean(res)) / sd(res))
+#df <- data_frame(z_res = (res - mean(res)) / sd(res)) # 古い方法
+df <- tibble(z_res = (res - mean(res)) / sd(res)) # 新しい方法
 
 ## 残差の正規QQプロットを描く
 qqplt <- ggplot(df, aes(sample = z_res)) +

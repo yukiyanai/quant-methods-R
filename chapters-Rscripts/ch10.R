@@ -3,9 +3,10 @@
 ## 浅野正彦・矢内勇生. 2018. 『Rによる計量政治学』オーム社
 ## 第10章 回帰分析の基礎
 ##
-## Created: 2018-11-22 Yuki Yanai
+## Created:  2018-11-22 Yuki Yanai
 ## Modified: 2018-11-23 YY
 ##           2018-11-24 YY
+##           2021-05-29 YY
 
 ## tidyverse パッケージを読み込む
 library("tidyverse")
