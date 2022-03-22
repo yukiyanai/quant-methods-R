@@ -9,7 +9,7 @@
 
 - 著者
 	- [浅野 正彦 (Masahiko ASANO)](https://www.asanoucla.com/), Ph.D.
-	- [矢内 勇生 (Yuki YANAI)](http://www.yukiyanai.com), Ph.D.
+	- [矢内 勇生 (Yuki YANAI)](https://yukiyanai.github.io/), Ph.D.
 - 出版社：[オーム社](https://www.ohmsha.co.jp/)
 - 出版年月：2018年12月
 	- 第1版第1刷：2018年12月20日
@@ -110,8 +110,8 @@
 
 | ページ | 場所 | 誤 | 正 | 解説 |Credit |
 | --- | ---| --- | --- |  --- | --- |
-| 143  | 脚注1の4行目| 詳しくは、こ8.2.2節 | 詳しくは、8.2.2節 | | [福元健太郎](https://www-cc.gakushuin.ac.jp/~e982440/index.htm)さん  |
 | 142  | 例8-1          | 感情温度を知るため。 | 感情温度を知るため、|  | 金山隼人さん |
+| 143  | 脚注1の4行目| 詳しくは、こ8.2.2節 | 詳しくは、8.2.2節 | | [福元健太郎](https://www-cc.gakushuin.ac.jp/~e982440/index.htm)さん  |
 | 154  | 最初の式の一部 | ![\sqrt{10}](https://latex.codecogs.com/svg.image?\sqrt{10})（10の平方根） | ![\sqrt{100}](https://latex.codecogs.com/svg.image?\sqrt{100}) （100の平方根）| | 丸岡大洋 さん |
 | 237  | 最後のコード | df2 = 287 | df2 = 285 | | [岩波由香里](https://www.econ.osaka-cu.ac.jp/iwanami/)さん |
 
