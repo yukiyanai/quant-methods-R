@@ -1,0 +1,166 @@
+---
+title: "Rによる計量政治学：練習問題の解答例"
+subtitle: "第9章 変数間の関連性"
+author: "浅野正彦, 矢内勇生"
+date: "2018-11-28"
+output:
+    html_document:
+        theme: united
+        highlight: tango
+        css: my-markdown.css
+        toc: true
+        self_contained: true
+---
+
+```{r global_option, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, echo = TRUE, message = FALSE,
+                      fig.width = 5, fig.height = 4)
+```
+
+## パッケージの読み込み
+
+```{r load-packs}
+library("tidyverse")
+if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
+  theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+}                                             
+```
+
+## Q9-1
+
+上記の調査結果をRで行列として表現してみよう。  
+```{r}
+tbl_cab <- matrix(c(15, 10, 10, 15), nrow = 2, byrow = TRUE)
+  row.names(tbl_cab) <- c("女性", "男性")   # 行に名前をつける
+  colnames(tbl_cab) <- c("不支持", "支持")  # 列に名前をつける
+  addmargins(tbl_cab)                       # 周辺度数を加えて表示する
+```
+
+このクロス表（行列）に対し、`chisq.test()` を使うことで$\chi^2$ 乗検定を行う。イェーツの連続性補正 (Yate's continuity correction) は行わないので `correct = FALSE`とする。有意水準は5% (0.05) に設定する。
+```{r}
+chisq.test(tbl_cab, correct = FALSE)
+```
+
+この結果を見ると、 $\chi^2$の値が「X-squared = 2」と示されている。$p$値 (p-value) が 0.1573  なので、ここで設定した帰無仮説:「母集団では、内閣支持は男女間で違いがない」は5%の有意水準で棄却されない。よって、ここで分析したデータから、母集団で内閣支持について男女間に差があるという証拠は得られない。
+
+
+## Q9-2
+
+```{r}
+data(women)
+```
+
+### Q9-2-1
+
+height をcm単位で測る ht_cm と、weightをkg単位で測るwt_kg という変数を作る。
+```{r}
+women <- women %>% 
+  mutate(ht_cm = height * 2.54,
+         wt_kg = weight * 0.4536)
+women
+```
+
+### Q9-2-2
+
+相関係数を求める。
+```{r}
+with(women, cor(height, weight))
+## 単位を変えても同じ結果
+with(women, cor(ht_cm, wt_kg))
+```
+
+相関係数が1に近いことから、強い正の相関だと考えられる。
+
+散布図も描いて確かめる。
+```{r}
+scat_women <- ggplot(women, aes(x = ht_cm, y = wt_kg)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "身長 (cm)", y = "体重 (kg)")
+print(scat_women)
+```
+
+観測された身長と体重のペアがほぼ一直線上に並んでいることから、強い正の相関があると考えられる。
+
+
+最後に、有意水準5%で、二変数の相関について統計的検定を行う。
+```{r}
+cor.test(women$height, women$weight)
+```
+
+$p$値 (p-value) が0.05より小さいので、二変数の相関はゼロであるという帰無仮説を棄却する。
+よって、身長と体重には正の相関があると判断する。
+
+### Q9-2-3
+
+体重を増やしても身長は伸びないし、体重を減らしても身長は縮まないので、体重が原因で身長が結果という因果関係はないだろう。
+
+それに対し、身長が伸びれば体重が増えるということは考えられる。したがって、身長が原因で体重が結果という因果関係はあるかもしれない。
+
+しかし、身長が伸びても体重が増えなかったり、身長が変わらなくても体重だけが増えたりすることがある。また、栄養状態などの第三の要因が身長と体重の両者に影響していることも考えられる。さらに、身長は自由に変えることができないので、体重に影響するとしても、原因とはいえないと考えることもできる。そうだとすると、身長と体重の間に因果関係は存在せず、相関関係があるだけだと考えられる。
+
+## Q9-3
+
+```{r}
+data(cars)
+```
+
+
+### Q9-3-1
+
+speed の単位をkm/h に変換したspd_kmh と、distの単位を meter に変換した dist_m という変数を作る。
+```{r}
+cars <- cars %>% 
+  mutate(spd_kmh = speed * 1.6,
+         dist_m = dist * 0.3048)
+cars
+```
+
+### Q9-3-2
+
+相関係数を求める。
+```{r}
+with(cars, cor(speed, dist))
+## 単位を変えても同じ結果
+with(cars, cor(spd_kmh, dist_m))
+```
+
+これは強い正の相関だと考えられる。
+
+散布図も描いて確かめる。
+```{r}
+scat_cars <- ggplot(cars, aes(x = spd_kmh, y = dist_m)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "スピード (km/h)", y = "停止距離 (m)")
+print(scat_cars)
+```
+
+観測されたスピードと停止距離のペアが直線の周りに散らばっており、それなりに強い正の相関があると考えられる。
+
+
+最後に、有意水準5%で、二変数の相関について統計的検定を行う。
+```{r}
+cor.test(cars$speed, cars$dist)
+```
+
+$p$値 (p-value) が0.05より小さいので、二変数の相関はゼロであるという帰無仮説を棄却する。
+よって、スピードと停止距離には正の相関があると判断する。
+
+### Q9-3-3
+
+スピードのほうが停止距離より先に決まるので、時間的先行関係がある。
+また、スピードを速くすれば停止距離が伸び、スピードを遅くすれば停止距離が縮まるという共変関係もある。
+そして、スピード以外の要因を一切変えなくても、スピードだけ変えれば停止距離が変わる。
+したがって、スピードが原因で停止距離が結果という因果関係があると考えられる。
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,299 @@
+---
+title: "Rによる計量政治学：練習問題の解答例"
+subtitle: "第15章 ロジスティック回帰分析"
+author: "浅野正彦, 矢内勇生"
+date: "2018-11-29"
+output:
+    html_document:
+        theme: united
+        highlight: tango
+        css: my-markdown.css
+        toc: true
+        self_contained: true
+---
+
+
+```{r global_option, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, echo = TRUE, message = FALSE,
+                      fig.width = 5, fig.height = 4)
+```
+
+## パッケージの読み込み
+
+```{r load-packs}
+library("tidyverse")
+if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
+  theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
+}                                             
+library("ROCR")
+library("margins")
+```
+
+## Q15-1
+
+Rds形式の衆院選データ (hr-data.Rds) を読み込み、「HR」というデータフレーム名を付ける。
+手元にない場合はまずダウンロードする。
+```{r read-HR-data}
+# dir.create("data") # dataディレクトリがない場合は作る
+#download.file(url = "https://git.io/fp00p",
+#              destfile = "data/hr-data.Rds")
+HR <- read_rds("data/hr-data.Rds")
+## Rdsファイルの読み込みがうまくいかない場合は以下を実行してCSVファイルを使う
+#download.file(url = "https://git.io/fxhQU",
+#              destfile = "data/hr-data.csv")
+#HR <- read_csv("data/hr-data.csv")
+```
+
+データが正しく読み込めたか確認する。
+```{r}
+glimpse(HR)
+```
+
+`filter()` と `select()`を使って、2009年の衆院選データだけを切り取り、分析で使う変数 (voteshare, expm, previous) だけを指定して「hr2012」というデータフレーム名を付ける。  
+```{r}
+hr2012 <- HR %>% 
+  filter(year == 2009) %>% 
+  select(smd, previous, expm)
+```
+
+`summary()` を使って記述統計を確認する。
+```{r}
+summary(hr2012)
+```
+
+### Q15-1-1
+
+小選挙区での当落 (smd) を縦軸、選挙費用 (expm) を横軸にとった散布図を描く。
+```{r}
+plt1 <- ggplot(hr2012, aes(x = expm, 
+                           y = as.numeric(smd == "当選"))) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_hline(yintercept = c(0, 1), color = "grey") +
+  geom_jitter(height = 0.05) +
+  scale_y_continuous(breaks = 0:1) +
+  labs(x = "選挙費用（百万円）", y = "小選挙区での当落")
+print(plt1)
+```
+
+
+### Q15-1-2  
+
+小選挙区での当落 (smd) を縦軸、過去の当選回数 (previous) を横軸にとった散布図を描く。
+```{r}
+plt2 <- ggplot(hr2012, aes(x = previous, 
+                           y = as.numeric(smd == "当選"))) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_hline(yintercept = c(0, 1), color = "grey") +
+  geom_jitter(height = 0.05) +
+  scale_y_continuous(breaks = 0:1) +
+  labs(x = "過去の当選回数", y = "小選挙区で当落")
+print(plt2)
+```
+
+過去の当選回数と小選挙区の当落との間には正の相関があることが確認できる。  
+
+### Q15-1-3
+
+ロジスティック回帰分析を実行する。有意水準は5% (0.05) に設定する。
+```{r}
+hr2012 <- na.omit(hr2012)  # 望ましい方法ではないが、欠測がある観測を除外する
+model_4 <- glm(smd ~ previous + expm, data = hr2012,
+               family = binomial(link = "logit"))
+summary(model_4)
+```
+
+previousとexpmとう二つの変数の$p$値がどちらも0.05より小さいので、これらの変数の係数の推定値が統計的
+に有意であることがわかる。  しかし、このままでは係数の意味がわかりにくい。  
+様々な工夫をすることによって、結果を読み解く作業が必要である。
+
+
+### Q15-1-4
+
+上で推定した結果を式にまとめる。
+$$
+\widehat{当選確率}_i = \frac{1}{1 + \exp[-(`r round(coef(model_4)[1], 2)` + `r round(coef(model_4)[2], 2)`\cdot 当選回数_i + `r round(coef(model_4)[3], 2)`\cdot 選挙費用_i)]}
+$$
+
+
+### Q15-1-5
+
+上の式を可視化し、「当選確率」を縦軸、「過去の当選回数 (previous)」を横軸にしたグラフを描く。
+```{r}
+pred_prev <-  data_frame(
+    previous = seq(min(hr2012$previous), max(hr2012$previous), by = 1),
+    expm = mean(hr2012$expm)
+)
+pred_prev$fit <- predict(model_4, type = "response", newdata = pred_prev)
+plt_prev <- ggplot(hr2012, aes(x = previous)) +
+    geom_hline(yintercept = c(0, 1), color = "gray") +
+    geom_jitter(aes(y = as.numeric(smd == "当選")), 
+                width = 0.05, height = 0.05) +
+    geom_line(data = pred_prev, aes(y = fit)) +
+    geom_point(data = pred_prev, aes(y = fit), pch = 18) +
+    labs(x = "過去の当選回数", y = "当選確率")
+print(plt_prev)  
+```
+
+### Q15-1-6
+
+上の式を可視化し、「当選確率」を縦軸、「選挙費用 (expm)」を横軸にしたグラフを描く。
+```{r}
+pred_expm <-  data_frame(
+    expm = seq(0, max(hr2012$expm), length.out = 100),
+    previous = mean(hr2012$previous)
+)
+pred_expm$fit <- predict(model_4, type = "response", newdata = pred_expm)
+plt_expm <- ggplot(hr2012, aes(x = expm)) +
+    geom_hline(yintercept = c(0, 1), color = "gray") +
+    geom_jitter(aes(y = as.numeric(smd == "当選")), height = 0.05) +
+    geom_line(data = pred_expm, aes(y = fit)) +
+    labs(x = "選挙費用（100万円）", y = "当選確率")
+print(plt_expm)  
+```
+
+
+### Q15-1-7
+
+```{r}
+model_5 <- glm(smd ~ previous * expm, data = hr2012,
+               family = binomial(link = "logit"))
+summary(model_5)
+```
+previous:expm の係数 ($`r coef(model_5)[4]`$) の推定値が統計的に有意（5%の有意水準で帰無仮説が棄却できる）であることがわかる。  
+このことは、previous の値次第で expm が voteshare に与える影響が異なる、あるいは expm の値次第で previous が voteshare に与える影響が異なるということを意味している。  
+しかし、このままでは係数の意味がわかりにくいため、様々な工夫をすることによって、結果を読み解く作業が必要である。
+
+
+### Q15-1-8 
+
+交差項を含まない model_4 と交差項を含む model_5 のどちらの当てはまりがよいかを、ROC 曲線を描いて考える。ROC曲線を描くために**ROCRパッケージ**を使う。`prediction()` という名前の関数は**ROCR**パッケージだけでなく**margins**パッケージにもあるので、どちらの関数を使うか明記する。
+```{r, fig.width = 5, fig.height = 5}
+pi4 <- predict(model_4, type = "response")
+pi5 <- predict(model_5, type = "response")
+pr4 <- ROCR::prediction(pi4, labels = hr2012$smd == "当選")
+pr5 <- ROCR::prediction(pi5, labels = hr2012$smd == "当選")
+roc4 <- performance(pr4, measure = "tpr", x.measure = "fpr")
+roc5 <- performance(pr5, measure = "tpr", x.measure = "fpr")
+df_roc <- data_frame(fpr = c(roc4@x.values[[1]], roc5@x.values[[1]]),
+                     tpr = c(roc4@y.values[[1]], roc5@y.values[[1]])) %>% 
+  mutate(model = rep(c("モデル4", "モデル5"), c(n()/2, n()/2)))
+roc <- ggplot(df_roc, aes(x = fpr, y = tpr,
+                          color = model, linetype = model)) + 
+  geom_line() +
+  scale_linetype_discrete(name = "") +
+  scale_color_discrete(name = "") +
+  coord_fixed() +
+  labs(x = "偽陽性率（1 - 特異度）", y = "真陽性率（感度）")
+print(roc)
+```  
+
+ROC曲線で見る限り、二つのモデルの当てはまりのよさに大きな差はなさそうである。
+
+念のため、AUCを計算する。
+```{r}
+auc4 <- performance(pr4, measure = "auc")
+auc4@y.values[[1]]   # model_4 のAUC
+auc5 <- performance(pr5, measure = "auc")
+auc5@y.values[[1]]   # model_5 のAUC
+```
+
+AUCにもほとんど差はないが、わずかにモデル5 (model_5) の当てはまりの方がよさそうだ。
+
+
+### Q15-1-9
+
+```{r}
+mplt1 <- cplot(model_5, x = "expm", dx = "expm", 
+               what = "effect", draw = FALSE) %>% 
+    as_data_frame() %>% 
+    ggplot(aes(x = xvals, y = yvals, ymin = lower, ymax = upper)) +
+      geom_ribbon(fill = "gray") +
+      geom_line()  +
+      labs(x = "選挙費用 (100万円）",
+           y = "選挙費用の平均限界効果") 
+print(mplt1)
+```  
+
+選挙費用が増えるにつれて「選挙費用が当落に与える影響力（選挙費用の平均限界効果）」が徐々に大きくなっていることがわかる。しかし、その影響力は、選挙費用が2,000万円を越えると小さくなっていく。灰色で示された95%信頼区間がの幅が広いので、推定の不確実性が大きいことがわかる。
+
+
+### Q15-1-10
+
+```{r}
+mplt2 <- cplot(model_5, x = "previous", dx = "expm",
+                 what = "effect", draw = FALSE) %>% 
+    as_data_frame() %>% 
+    ggplot(aes(x = xvals, y = yvals,  ymin = lower, ymax = upper)) +
+      geom_ribbon(fill = "gray") +
+      geom_line() +
+      labs(x = "選挙費用（100万円）",
+           y = "当選回数の平均限界効果")
+print(mplt2)
+```  
+
+選挙費用が500万円までは、選挙費用が増えることによって当選回数が得票率に与える影響が急激に小さくなることがわかる。しかし、選挙費用が500万円を越えると、当選回数が当落に与える影響力は徐々に大きくなっていく。
+
+
+### Q15-1-11
+
+```{r}
+mplt3 <- cplot(model_5, x = "expm", dx = "previous",
+                 what = "effect", draw = FALSE) %>% 
+    as_data_frame() %>% 
+    ggplot(aes(x = xvals, y = yvals, ymin = lower, ymax = upper)) +
+      geom_ribbon(fill = "gray") +
+      geom_line() +
+    labs(x = "当選回数",
+         y = "選挙費用の平均限界効果")
+print(mplt3)
+```  
+
+当選回数が増えるにつれて「選挙費用が当落に与える影響力（選挙費用の平均限界効果）」が徐々に小さくなっていくことがわかる。
+
+
+
+### Q15-1-12
+```{r}
+mplt4 <- cplot(model_5, x = "previous", dx = "previous",
+                 what = "effect", draw = FALSE) %>% 
+    as_data_frame() %>% 
+    ggplot(aes(x = xvals, y = yvals, ymin = lower, ymax = upper)) +
+      geom_ribbon(fill = "gray") +
+      geom_line() +
+      labs(x = "当選回数",
+           y = "当選回数の平均限界効果")
+print(mplt4)
+```
+
+
+
+当選回数が3回程度までは、当選回数が増えるにつれて「当選回数が当落に与える影響力（当選回数の平均限界効果）」が大きくなっていく。しかし、当選回数がそれ以上になると、当選回数が得票率に与える影響はどんどん小さくなり、当選回数10回を越えると、その効果はほとんどなくなる。
+
+
+### Q15-1-13
+
+```{r}
+df_pre <- expand.grid(
+    previous = seq(0, 16, by = 2),
+    expm = seq(0, 25, by = 0.1)) %>%
+    as_data_frame()
+pred <- predict(model_5, type = "response",
+                newdata = df_pre, se.fit = TRUE)
+df_pre$fit <- pred$fit
+df_pre$lower <- with(pred, fit - 2 * se.fit)
+df_pre$upper <- with(pred, fit + 2 * se.fit)
+df_pre <- df_pre %>% 
+    mutate(lower = ifelse(lower < 0, 0, lower),
+           upper = ifelse(upper > 1, 1, upper))
+plt_prob  <- ggplot(df_pre, aes(x = expm, y = fit)) +
+    geom_ribbon(aes(ymin = lower, ymax = upper), fill = "gray") +
+    geom_line() +
+    facet_wrap(. ~ previous) +
+    labs(x = "選挙費用（100万円）", y = "当選確率の予測値")
+print(plt_prob)
+```
+
+### Q15-1-14
+
+2005年衆院選の分析結果（テキスト329ページの図15.12）と比較すると、2009年衆院選では新人候補者 (previous = 0) や当選回数の少ない候補者 (previous = 2 or 4) が選挙費用を使っても当選確率の上昇率が小さいことがわかる。  
+また、当選回数が多くなると、選挙費用が上がるほど得票率が下がることがわかる。これは、必ずしも因果関係ではない。当選回数が多くても負けそうな候補者が選挙費用をたくさん使い（そしてそれでも得票は増加せず）、当選回数が多くて選挙に勝てそうな（そして実際に得票率が高かった）候補者が選挙費用を使う必要がなかっただけかもしれない。
