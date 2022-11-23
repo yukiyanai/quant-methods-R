@@ -80,6 +80,9 @@ write_rds(HR, path = "data/hr-data.Rds")
 ## 教科書出版後に登場した新しい方法
 write_rds(HR, file = "data/hr-data.Rds")
 
+## CSV に保存する
+write_csv(HR, file = "data/hr-data.csv")
+
 
 ## 2変数のクロス表を作る
 with(HR, table(status, wl))

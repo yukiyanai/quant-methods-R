@@ -66,20 +66,26 @@
 
 **Rdsファイルについての注意（2020-04-09 追記）**：Windows OS で `download.file()` 関数を使って Rdsファイル（例：hr-data.Rds）をダウンロードして使おうとすると、`read_rds()` の時点でエラーが出ることがあるようです。その場合は、Rdsファイルの代わりに同じ内容の CSVファイル（例：hr-data.csv）をダウンロードし、`read_csv()` で読み込んでください。
 
-- 衆議院議員総選挙小選挙区候補者データ, 1996-2017（データに誤りがあったので修正しました [2020-04-19]。[福元健太郎](https://www-cc.gakushuin.ac.jp/~e982440/index.htm)さんにご指摘いただきました。）
-	
-	- 修正後のデータ (2020-04-19)
-		- 元のCSVファイル：[hr96-17.csv](data_fixed/hr96-17.csv)
-		- 第5章で手を加えたもの：[hr96-17.Rds](data_fixed/hr96-17.Rds)
-		- 第6章でさらに手を加えたもの：[hr-data.Rds](data_fixed/hr-data.Rds)（CSV版：[hr-data.csv](data_fixed/hr-data.csv)）
+###  衆議院議員総選挙小選挙区候補者データ, 1996-2017
 
-	- 修正前のデータ（教科書通りの分析結果を再生するためのデータ）
-		- 元のCSVファイル：[hr96-17.csv](data/hr96-17.csv)
-		- 第5章で手を加えたもの：[hr96-17.Rds](data/hr96-17.Rds)
-		- 第6章でさらに手を加えたもの：[hr-data.Rds](data/hr-data.Rds)（CSV版：[hr-data.csv](data/hr-data.csv)）
+- データに誤りがあったので修正しました 
+	- 2020-04-19：[福元健太郎](https://www-cc.gakushuin.ac.jp/~e982440/index.htm)さんにご指摘いただきました。
+	- 2022-11-23：[砂原庸介](https://sites.google.com/site/sunaharay/home)さんに、選挙区ごとの候補者数 (ncand) の値に誤りがあることをご指摘いただきました。修正箇所：2009年兵庫8区、2014年北海道1区、山形2区、京都2区、京都3区、大阪8区。
+	
+- 修正後のデータ (2022-11-23)
+	- 元のCSVファイル：[hr96-17.csv](data_fixed/hr96-17.csv)
+	- 第5章で手を加えたもの：[hr96-17.Rds](data_fixed/hr96-17.Rds)
+	- 第6章でさらに手を加えたもの：[hr-data.Rds](data_fixed/hr-data.Rds)（CSV版：[hr-data.csv](data_fixed/hr-data.csv)）
+
+- 修正前のデータ（教科書通りの分析結果を再生するためのデータ）
+	- 元のCSVファイル：[hr96-17.csv](data/hr96-17.csv)
+	- 第5章で手を加えたもの：[hr96-17.Rds](data/hr96-17.Rds)
+	- 第6章でさらに手を加えたもの：[hr-data.Rds](data/hr-data.Rds)（CSV版：[hr-data.csv](data/hr-data.csv)）
 	
 
 - 政党名の日本語表記と英語（ローマ字）表記の対応表：[parties.csv](data/parties.csv)
+
+### その他のデータ
 
 - 2010年のビールの売り上げと気温のデータ：[beer2010.csv](data/beer2010.csv)
 	- 出所 (1) [総務省統計局](http://www.stat.go.jp/info/link/getujidb.html)
