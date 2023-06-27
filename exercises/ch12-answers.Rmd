@@ -2,7 +2,7 @@
 title: "Rによる計量政治学：練習問題の解答例"
 subtitle: "第12章 回帰分析の前提と妥当性の診断"
 author: "浅野正彦, 矢内勇生"
-date: "2018-11-28"
+date: "2018-11-28（改訂：2023-06-27）"
 output:
     html_document:
         theme: united
@@ -20,11 +20,11 @@ knitr::opts_chunk$set(warning = FALSE, echo = TRUE, message = FALSE,
 ## パッケージの読み込み
 
 ```{r load-packs}
-library("tidyverse")
+library(tidyverse)
 if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
   theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
 }
-library("coefplot")
+library(coefplot)
 ```
 
 
@@ -45,8 +45,8 @@ summary(fit_beer)  # 結果を表示
 
 この分析の残差プロットを描く。
 ```{r res-beer}
-res_beer <- data_frame(res = fit_beer$residuals,
-                       fitted = fit_beer$fitted.values) %>% 
+res_beer <- tibble(res = fit_beer$residuals,
+                   fitted = fit_beer$fitted.values) %>% 
   ggplot(aes(x = fitted, y = res)) +
   geom_point() +
   geom_hline(yintercept = 0) +
@@ -61,14 +61,14 @@ print(res_beer)
 ## 残差を標準化する
 z_res <- with(fit_beer, (residuals - mean(residuals)) / sd(residuals))
 ## 図を描く
-qq_beer <- data_frame(z_res) %>% 
+qq_beer <- tibble(z_res) %>% 
   ggplot(aes(sample = z_res)) +
-    geom_abline(intercept = 0, slope = 1,               # 45度線
-                linetype = "dashed", color = "gray") +
-    geom_qq() +
-    labs(x = "標準正規分布", y = "標準化した残差の分布") +
-    xlim(-4, 4) + ylim(-4, 4) +
-    coord_fixed()  # 横軸と縦軸を1:1にする
+  geom_abline(intercept = 0, slope = 1,               # 45度線
+              linetype = "dashed", color = "gray") +
+  geom_qq() +
+  labs(x = "標準正規分布", y = "標準化した残差の分布") +
+  xlim(-4, 4) + ylim(-4, 4) +
+  coord_fixed()  # 横軸と縦軸を1:1にする
 print(qq_beer)
 ```
 
@@ -120,11 +120,11 @@ fit_q12 <- lm(voteshare ~ expm + age, data = LDP2012)
 summary(fit_q12)
 ```
 
-包括的な仮説から検定しよう。上で示された結果のうち、最後の行にある$F$統計量の$p値$ を見ると、$0.00783 < 0.05$ だから、有意水準5\%で帰無仮説を棄却する。すなわち、$\beta_1$と$\beta_2$のうち、少なくとも一方は0ではない。言い換えると、（**上で想定したモデルが正しいなら**）選挙費用と年齢のうち少なくとも一方は得票率に影響を与える。
+包括的な仮説から検定しよう。上で示された結果のうち、最後の行にある$F$統計量の$p値$ を見ると、$1.16 \times 10^{-7} < 0.05$ だから、有意水準5\%で帰無仮説を棄却する。すなわち、$\beta_1$と$\beta_2$のうち、少なくとも一方は0ではない。言い換えると、（**上で想定したモデルが正しいなら**）選挙費用と年齢のうち少なくとも一方は得票率に影響を与える。
 
 次に、係数を個別に検定しよう。まず、過去の選挙費用 (expm) の係数の$p$値は、$0.000545 < 0.05$ だから、有意水準5\%で帰無仮説を棄却する。すなわち、選挙費用は得票率に影響を与える。$\beta_1$の推定値は約$`r round(coef(fit_q12)[2], 2)`$だから、年齢を一定に保つと、選挙費用が100万円増えるごとに、得票率は平均すると$`r round(coef(fit_q12)[2], 2)`$パーセントポイントずつ上昇すると考えられる。この選挙における自民党候補の選挙費用の標準偏差は、`r round(sd(LDP2012$expm, na.rm = TRUE), 2)`百万円である。選挙費用が400万円（おおよそ1標準偏差分）異なると、$`r round(4 * coef(fit_q12)[2], 2)`$パーセントポイント得票率に差が出るということなので、この効果は実質的にはそれほど重要ではなさそうだ。
 
-年齢 (age) の係数の$p$値は、$0.0139 < 0.05$だから、有意水準5%で帰無仮説を棄却する。すなわち、年齢は得票率に影響を与える。$\beta_2$の推定値は約$`r round(coef(fit_q12)[3], 2)`$だから、過去の当選回数を一定に保つと、年齢が1歳上がるごとに得票率が$`r round(coef(fit_q12)[3], 2)`$パーセントポイントずつ上がることが予測される。
+年齢 (age) の係数の$p$値は、$3.26 \times 10^{-5} < 0.05$だから、有意水準5%で帰無仮説を棄却する。すなわち、年齢は得票率に影響を与える。$\beta_2$の推定値は約$`r round(coef(fit_q12)[3], 2)`$だから、過去の当選回数を一定に保つと、年齢が1歳上がるごとに得票率が$`r round(coef(fit_q12)[3], 2)`$パーセントポイントずつ上がることが予測される。
 一回り年齢が違うと、$`r round(12 * coef(fit_q12)[3], 2)`$パーセントポイントだけ得票率に差が出るということなので、無視できるほど小さい差ではないが、実質的に大きな効果があると言い切ることは難しい。30歳の候補と60歳の候補を比べると、$`r round(30 * coef(fit_q12)[3], 2)`$パーセントポイントの差になるので、年齢差が大きければ実質的に意味がある違いが出ることがわかる（2012年の自民候補のうち、最年少候補は`r min(LDP2012$age)`歳、最年長候補はは`r max(LDP2012$age)`歳である）。
 
 この分析結果を図にまとめる。
@@ -156,8 +156,8 @@ print(coefs_q12)
 
 上のモデルの残差プロットを作る。
 ```{r res-ldp-2012}
-res_ldp <- data_frame(res = fit_q12$residuals,
-                      fitted = fit_q12$fitted.values) %>% 
+res_ldp <- tibble(res = fit_q12$residuals,
+                  fitted = fit_q12$fitted.values) %>% 
   ggplot(aes(x = fitted, y = res)) +
   geom_point() +
   geom_hline(yintercept = 0) +
@@ -172,14 +172,14 @@ print(res_ldp)
 ## 残差を標準化する
 z_res <-  with(fit_q12, (residuals - mean(residuals)) / sd(residuals))
 ## 図を描く
-qq_ldp <- data_frame(z_res) %>% 
+qq_ldp <- tibble(z_res) %>% 
   ggplot(aes(sample = z_res)) +
-    geom_abline(intercept = 0, slope = 1,               # 45度線
-                linetype = "dashed", color = "gray") +
-    geom_qq(pch = 16, size = 1) +
-    labs(x = "標準正規分布", y = "標準化した残差の分布") +
-    xlim(-4, 4) + ylim(-4, 4) +
-    coord_fixed()  # 横軸と縦軸を1:1にする
+  geom_abline(intercept = 0, slope = 1,               # 45度線
+              linetype = "dashed", color = "gray") +
+  geom_qq(pch = 16, size = 1) +
+  labs(x = "標準正規分布", y = "標準化した残差の分布") +
+  xlim(-4, 4) + ylim(-4, 4) +
+  coord_fixed()  # 横軸と縦軸を1:1にする
 print(qq_ldp)
 ```
 
