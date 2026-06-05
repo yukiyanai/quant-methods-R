@@ -20,7 +20,7 @@ knitr::opts_chunk$set(warning = FALSE, echo = TRUE, message = FALSE,
 ## パッケージの読み込み
 
 ```{r load-packs}
-library("tidyverse")
+library(tidyverse)
 if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
   theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
 }

@@ -20,7 +20,7 @@ knitr::opts_chunk$set(warning = FALSE, echo = TRUE, message = FALSE,
 ## パッケージの読み込み
 
 ```{r load-packs}
-library("tidyverse")
+library(tidyverse)
 ```
 
 ## Q5-1
@@ -154,7 +154,7 @@ M
 ## Q5-3
 
 三つのデータセットをダウンロードし、dataディレクトリに保存する。
-```{r download-3files}
+```{r download-3files, eval = FALSE}
 download.file(url = "https://git.io/fxfKs",
               destfile = "data/ex-ch05b.csv")
 download.file(url = "https://git.io/fxfKZ",

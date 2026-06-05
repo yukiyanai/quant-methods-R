@@ -20,7 +20,7 @@ knitr::opts_chunk$set(warning = FALSE, echo = TRUE, message = FALSE,
 ## パッケージの読み込み
 
 ```{r load-packs}
-library("tidyverse")
+library(tidyverse)
 ```
 
 ## Q7-1

@@ -20,7 +20,7 @@ knitr::opts_chunk$set(warning = FALSE, echo = TRUE, message = FALSE,
 ## パッケージの読み込み
 
 ```{r load-packs}
-library("tidyverse")
+library(tidyverse)
 if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
   theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
 }                                             
@@ -47,30 +47,30 @@ HR <- read_rds("data/hr-data.Rds")
 glimpse(HR)
 ```
 
-1996年の衆院選だけを抜き出してデータフレームを作る。
+1996年の衆院選の自民党候補だけを抜き出してデータフレームを作る。
 ```{r}
-HR1996 <- filter(HR, year == 1996)
+LDP1996 <- filter(HR, year == 1996, party_jpn == "自民党")
 ```
 
 ### Q10-1-1
 
 得票率 voteshare と 選挙費用 (expm) の散布図を描き、回帰直線を上書きする。
 ```{r}
-p_q10 <- ggplot(HR1996, aes(x = expm, y = voteshare)) +
+p_q10 <- ggplot(LDP1996, aes(x = expm, y = voteshare)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   labs(x = "選挙費用（100万円）", y = "得票率 (%)")
 print(p_q10)
 ```
 
-直線が右上がりになっており、選挙費用が大きいほど得票率が高いという関係がありそうに見える。
+直線がやや右上がりになっており、選挙費用が大きいほど得票率が高いという弱い関係がありそうに見える。
 
 ### Q10-1-2
 
 得票率 voteshare を年齢 age と選挙費用 expm （単位は100万円）
 に回帰する。
 ```{r}
-fit_q10 <- lm(voteshare ~ age + expm, data = HR1996)
+fit_q10 <- lm(voteshare ~ age + expm, data = LDP1996)
 summary(fit_q10)
 ```
 

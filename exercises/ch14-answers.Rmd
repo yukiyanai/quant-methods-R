@@ -20,15 +20,11 @@ knitr::opts_chunk$set(warning = FALSE, echo = TRUE, message = FALSE,
 ## パッケージの読み込み
 
 ```{r load-packs}
-library("tidyverse")
+library(tidyverse)
 if (capabilities("aqua")) { # Macかどうか判定し、Macの場合のみ実行
   theme_set(theme_gray(base_size = 10, base_family = "HiraginoSans-W3"))
 } 
-library("interplot")
-if (!requireNamespace("jtools")) {
-  install.packages("jtools")
-}
-library("jtools")
+library(interplot)
 ```
 
 
@@ -206,20 +202,4 @@ print(plt_int2)
 
 調整変数である当選回数 (previous) の値が 7から10の範囲付近では 99% 信頼区間が 0を含んでいるため、この範囲においては限界効果が統計的に有意ではない。  
 
-
-#### **おまけ**
-
-**jtools**パッケージを使うと、限界効果が統計的に有意な範囲を色分けして表示できる。
-
-```{r}
-sim_slopes(fit_2012, pred = exppv, modx = previous,
-           jnalpha = 0.01)
-```
-
-```{r}
-johnson_neyman(fit_2012, pred = exppv, modx = previous,
-               alpha = 0.01)
-```
-
-調整変数である当選回数 (previous) の値が 6.68 から 10.05 では限界効果が統計的に有意ではないことがピンク色で示されている。
 
